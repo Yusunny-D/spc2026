@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>자리 배치 프로그램</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: rgba(255, 255, 255, 0.92);
+      --panel-strong: #ffffff;
+      --line: #dde4f0;
+      --line-strong: #c9d4e5;
+      --text: #1f2937;
+      --subtext: #667085;
+      --primary: #4f7cff;
+      --primary-soft: #eaf0ff;
+      --accent: #f7edd0;
+      --accent-border: #d6c08d;
+      --danger: #ff7676;
+      --danger-soft: #fff0f0;
+      --shadow: 0 18px 50px rgba(41, 72, 152, 0.08);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --seat-w: 126px;
+      --seat-h: 58px;
+      --gap: 12px;
+      --group-gap: 46px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(79, 124, 255, 0.08), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(247, 209, 116, 0.12), transparent 28%),
+        var(--bg);
+      color: var(--text);
+    }
+
+    .app {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 28px;
+      display: grid;
+      gap: 20px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,250,255,0.96));
+      border: 1px solid rgba(220, 229, 244, 0.95);
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+      padding: 24px 26px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--subtext);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .summary-cards {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .summary-card {
+      min-width: 110px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+
+    .summary-card strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .summary-card span {
+      color: var(--subtext);
+      font-size: 13px;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: 360px minmax(760px, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid rgba(221, 228, 240, 0.95);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .sidebar {
+      padding: 18px;
+      display: grid;
+      gap: 16px;
+      position: sticky;
+      top: 18px;
+    }
+
+    .section {
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .section-desc {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--subtext);
+      line-height: 1.5;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #f3f6fb;
+      color: #4b5563;
+      border: 1px solid #e3eaf7;
+    }
+
+    .controls {
+      display: grid;
+      gap: 10px;
+    }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    button {
+      border: 0;
+      outline: none;
+      cursor: pointer;
+      font: inherit;
+      border-radius: 14px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #5b82ff, #4870f8);
+      color: white;
+      padding: 13px 14px;
+      font-weight: 800;
+      box-shadow: 0 12px 28px rgba(79, 124, 255, 0.25);
+    }
+
+    .btn-secondary {
+      background: #f5f7fb;
+      color: var(--text);
+      padding: 13px 14px;
+      font-weight: 700;
+      border: 1px solid var(--line);
+    }
+
+    .btn-danger {
+      background: var(--danger-soft);
+      color: #d14545;
+      padding: 13px 14px;
+      font-weight: 700;
+      border: 1px solid #ffd4d4;
+    }
+
+    .toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: #f3f6fb;
+      border-radius: 16px;
+      padding: 6px;
+      border: 1px solid var(--line);
+    }
+
+    .toggle button {
+      padding: 12px 10px;
+      font-weight: 800;
+      background: transparent;
+      color: #6b7280;
+    }
+
+    .toggle button.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      font: inherit;
+      background: #fbfcff;
+    }
+
+    .name-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      max-height: 320px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .student-chip {
+      border: 1px solid var(--line-strong);
+      background: white;
+      border-radius: 14px;
+      padding: 10px 12px;
+      min-width: 78px;
+      text-align: center;
+      font-weight: 700;
+      color: #374151;
+      user-select: none;
+    }
+
+    .student-chip:hover {
+      border-color: #a9bcff;
+      box-shadow: 0 8px 20px rgba(79, 124, 255, 0.12);
+    }
+
+    .student-chip.selected {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-color: #a9bcff;
+      box-shadow: 0 8px 20px rgba(79, 124, 255, 0.15);
+    }
+
+    .student-chip.placed {
+      opacity: 0.4;
+      filter: grayscale(0.2);
+    }
+
+    .tip-list {
+      display: grid;
+      gap: 10px;
+      color: var(--subtext);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .tip-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .tip-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-top: 5px;
+      background: var(--primary);
+      flex: 0 0 auto;
+    }
+
+    .board-panel {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .board-toolbar {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 10px 6px 0;
+    }
+
+    .board-toolbar h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .board-toolbar p {
+      margin: 6px 0 0;
+      color: var(--subtext);
+      font-size: 14px;
+    }
+
+    .legend {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    .legend-box {
+      width: 16px;
+      height: 16px;
+      border-radius: 6px;
+      border: 1px solid var(--line-strong);
+      background: white;
+    }
+
+    .legend-box.seat {
+      background: var(--accent);
+      border-color: var(--accent-border);
+    }
+
+    .legend-box.selected {
+      background: var(--primary-soft);
+      border-color: #a9bcff;
+    }
+
+    .legend-box.empty {
+      background: #edf2fa;
+      border-style: dashed;
+    }
+
+    .classroom {
+      display: grid;
+      gap: 22px;
+      background: linear-gradient(180deg, #fcfdff 0%, #f7f9fd 100%);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      overflow-x: auto;
+    }
+
+    .front-row,
+    .screen-row {
+      display: flex;
+      justify-content: center;
+    }
+
+    .front-stage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+
+    .teacher-desk {
+      min-width: 220px;
+      text-align: center;
+      font-weight: 900;
+      font-size: 16px;
+      color: #6b4d17;
+      background: linear-gradient(135deg, #f8eed2, #fff8e8);
+      border: 1px solid #dec48b;
+      border-radius: 18px;
+      padding: 16px 24px;
+      box-shadow: 0 10px 22px rgba(161, 131, 62, 0.12);
+    }
+
+    .front-screen {
+      min-width: 340px;
+      text-align: center;
+      font-weight: 900;
+      font-size: 17px;
+      letter-spacing: 0.04em;
+      color: #2d4ba7;
+      background: linear-gradient(135deg, #edf2ff, #f7faff);
+      border: 1px solid #cfdbff;
+      border-radius: 18px;
+      padding: 16px 26px;
+      box-shadow: 0 10px 25px rgba(79, 124, 255, 0.08);
+    }
+
+    .screen {
+      min-width: 300px;
+      text-align: center;
+      font-weight: 900;
+      font-size: 17px;
+      letter-spacing: 0.04em;
+      color: #2d4ba7;
+      background: linear-gradient(135deg, #edf2ff, #f7faff);
+      border: 1px solid #cfdbff;
+      border-radius: 999px;
+      padding: 16px 26px;
+      box-shadow: 0 10px 25px rgba(79, 124, 255, 0.08);
+    }
+
+    .seat-layout {
+      min-width: 1040px;
+      display: grid;
+      grid-template-columns: repeat(3, max-content);
+      gap: var(--group-gap);
+      justify-content: center;
+      align-items: start;
+    }
+
+    .seat-group {
+      display: grid;
+      gap: var(--gap);
+    }
+
+    .seat-group.left {
+      grid-template-columns: repeat(2, var(--seat-w));
+      grid-template-rows: repeat(4, var(--seat-h));
+    }
+
+    .seat-group.center {
+      grid-template-columns: repeat(3, var(--seat-w));
+      grid-template-rows: repeat(5, var(--seat-h));
+    }
+
+    .seat-group.right {
+      grid-template-columns: repeat(2, var(--seat-w));
+      grid-template-rows: repeat(5, var(--seat-h));
+    }
+
+    .seat,
+    .seat-empty {
+      width: var(--seat-w);
+      height: var(--seat-h);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      user-select: none;
+    }
+
+    .seat {
+      background: var(--accent);
+      border: 1px solid var(--accent-border);
+      color: #352912;
+      box-shadow: 0 8px 18px rgba(161, 131, 62, 0.12);
+      position: relative;
+      padding: 8px;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    }
+
+    .seat:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 20px rgba(161, 131, 62, 0.18);
+    }
+
+    .seat.manual-active {
+      cursor: pointer;
+    }
+
+    .seat.selected-seat {
+      background: var(--primary-soft);
+      border-color: #9bb4ff;
+      color: #2849b5;
+      box-shadow: 0 12px 26px rgba(79, 124, 255, 0.18);
+    }
+
+    .seat.empty-name {
+      color: #9a8b67;
+      background: #f8f1db;
+      border-style: dashed;
+    }
+
+    .seat-empty {
+      background: transparent;
+      border: 1px dashed rgba(199, 209, 227, 0.8);
+      color: transparent;
+      box-shadow: none;
+    }
+
+    .seat-index {
+      position: absolute;
+      right: 8px;
+      bottom: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      opacity: 0.55;
+      letter-spacing: 0.04em;
+    }
+
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 2px 6px 0;
+      color: var(--subtext);
+      font-size: 13px;
+    }
+
+    .status-strong {
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    @media (max-width: 1260px) {
+      .main {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+    }
+
+    @media (max-width: 780px) {
+      .app {
+        padding: 16px;
+      }
+
+      .hero {
+        padding: 18px;
+      }
+
+      .hero h1 {
+        font-size: 26px;
+      }
+
+      .btn-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="hero">
+      <div>
+        <div class="hero-badge">자리배치 · 수동 배치 · 랜덤 섞기</div>
+        <h1>교실 자리 배치 프로그램</h1>
+        <p>
+          첨부해주신 자리 구조를 그대로 반영했습니다. 원하는 학생을 직접 배치할 수도 있고,
+          버튼 한 번으로 전체 자리를 랜덤하게 섞을 수도 있습니다.
+        </p>
+      </div>
+      <div class="summary-cards">
+        <div class="summary-card">
+          <strong id="seatCount">30</strong>
+          <span>전체 자리</span>
+        </div>
+        <div class="summary-card">
+          <strong id="assignedCount">30</strong>
+          <span>배치 완료</span>
+        </div>
+        <div class="summary-card">
+          <strong id="unassignedCount">0</strong>
+          <span>미배치</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="main">
+      <aside class="panel sidebar">
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">배치 모드</h3>
+              <p class="section-desc">수동으로 직접 놓거나, 랜덤으로 한 번에 섞을 수 있어요.</p>
+            </div>
+          </div>
+          <div class="toggle">
+            <button id="manualModeBtn" class="active" type="button">수동 배치</button>
+            <button id="randomModeBtn" type="button">랜덤 배치</button>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">빠른 실행</h3>
+              <p class="section-desc">현재 배치 모드에 맞는 기능만 깔끔하게 보여줍니다.</p>
+            </div>
+          </div>
+          <div class="controls" id="quickActions"></div>
+        </section>
+
+        <section class="section" id="studentSection">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">학생 명단</h3>
+              <p class="section-desc">학생을 선택한 뒤 자리를 클릭하면 수동 배치가 됩니다.</p>
+            </div>
+            <span class="chip" id="modeChip">현재: 수동 배치</span>
+          </div>
+          <input id="searchInput" class="search-box" type="text" placeholder="이름 검색" />
+          <div style="height: 12px;"></div>
+          <div id="studentList" class="name-list"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <div>
+              <h3 class="section-title">사용 방법</h3>
+            </div>
+          </div>
+          <div class="tip-list">
+            <div class="tip-item"><span class="tip-dot"></span><span>수동 배치 모드에서 학생 이름을 먼저 누르고 자리를 클릭하세요.</span></div>
+            <div class="tip-item"><span class="tip-dot"></span><span>이미 배치된 학생을 다른 자리에 놓으면 기존 자리는 자동으로 비워집니다.</span></div>
+            <div class="tip-item"><span class="tip-dot"></span><span>자리 클릭만으로 해당 자리를 비울 수도 있습니다. 학생을 선택하지 않은 상태에서 클릭하면 비워집니다.</span></div>
+            <div class="tip-item"><span class="tip-dot"></span><span>랜덤 보기 모드에서도 전체 랜덤 섞기 버튼으로 바로 결과를 확인할 수 있습니다.</span></div>
+          </div>
+        </section>
+      </aside>
+
+      <section class="panel board-panel">
+        <div class="board-toolbar">
+          <div>
+            <h2>교실 배치도</h2>
+            <p>첨부 이미지와 동일하게 왼쪽 2열 · 가운데 3열 · 오른쪽 2열 구조로 배치했습니다.</p>
+          </div>
+          <div class="legend">
+            <span class="legend-item"><span class="legend-box seat"></span>실제 자리</span>
+            <span class="legend-item"><span class="legend-box empty"></span>통로/빈칸</span>
+            <span class="legend-item"><span class="legend-box selected"></span>현재 선택</span>
+          </div>
+        </div>
+
+        <div class="classroom">
+          <div class="screen-row">
+            <div class="screen">뒤쪽 유리창</div>
+          </div>
+
+          <div class="seat-layout">
+            <div id="leftGroup" class="seat-group left"></div>
+            <div id="centerGroup" class="seat-group center"></div>
+            <div id="rightGroup" class="seat-group right"></div>
+          </div>
+
+          <div class="front-row">
+            <div class="front-stage">
+              <div class="teacher-desk">강사</div>
+              <div class="front-screen">스크린</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="status-bar">
+          <div>선택된 학생: <span id="selectedStudentText" class="status-strong">없음</span></div>
+          <div>선택된 자리: <span id="selectedSeatText" class="status-strong">없음</span></div>
+        </div>
+      </section>
+    </section>
+  </div>
+
+  <script>
+    const initialSeatData = {
+      left: [
+        { id: "L1", name: "조윤" },
+        { id: "L2", name: "조은결" },
+        { id: "L3", name: "권태현" },
+        { id: "L4", name: "김성호" },
+        null,
+        { id: "L6", name: "한혜경" },
+        null,
+        { id: "L8", name: "유지산" },
+      ],
+      center: [
+        { id: "C1", name: "이춘우" },
+        { id: "C2", name: "최준호" },
+        { id: "C3", name: "이서우" },
+        { id: "C4", name: "김민정" },
+        { id: "C5", name: "박지우" },
+        { id: "C6", name: "박은빈" },
+        { id: "C7", name: "진미경" },
+        { id: "C8", name: "박상우" },
+        { id: "C9", name: "조용민" },
+        { id: "C10", name: "김민정" },
+        { id: "C11", name: "이종혁" },
+        { id: "C12", name: "김규선" },
+        null,
+        { id: "C14", name: "심정호" },
+        { id: "C15", name: "이태경" },
+      ],
+      right: [
+        { id: "R1", name: "황동건" },
+        { id: "R2", name: "이상욱" },
+        { id: "R3", name: "원가희" },
+        { id: "R4", name: "신혜진" },
+        { id: "R5", name: "김선희" },
+        { id: "R6", name: "한은태" },
+        { id: "R7", name: "박초롱" },
+        { id: "R8", name: "박준하" },
+        { id: "R9", name: "채란" },
+        { id: "R10", name: "이미지" },
+      ],
+    };
+
+    const state = {
+      mode: "manual",
+      selectedStudentKey: null,
+      selectedSeatId: null,
+      searchKeyword: "",
+      seats: structuredClone(initialSeatData),
+    };
+
+    function getSeatEntries() {
+      return Object.entries(state.seats).flatMap(([group, list]) =>
+        list
+          .filter(Boolean)
+          .map((seat) => ({ ...seat, group }))
+      );
+    }
+
+    function getAllStudents() {
+      return getSeatEntries().map((seat, idx) => ({
+        key: `${seat.name}-${seat.id}-${idx}`,
+        name: seat.name,
+        seatId: seat.id,
+      }));
+    }
+
+    const initialStudents = getAllStudents();
+
+    function findSeatById(seatId) {
+      for (const groupName of Object.keys(state.seats)) {
+        const index = state.seats[groupName].findIndex((seat) => seat && seat.id === seatId);
+        if (index !== -1) return { groupName, index, seat: state.seats[groupName][index] };
+      }
+      return null;
+    }
+
+    function getPlacedStudentMap() {
+      const map = new Map();
+      for (const groupName of Object.keys(state.seats)) {
+        state.seats[groupName].forEach((seat) => {
+          if (seat && seat.name) {
+            const key = `${seat.name}-${seat.id}`;
+            map.set(key, seat.id);
+          }
+        });
+      }
+      return map;
+    }
+
+    function normalizeStudentPool() {
+      const current = [];
+      for (const groupName of Object.keys(state.seats)) {
+        state.seats[groupName].forEach((seat) => {
+          if (seat && seat.name) {
+            current.push(seat.name);
+          }
+        });
+      }
+      return current;
+    }
+
+    function renderStudentList() {
+      const container = document.getElementById("studentList");
+      const keyword = state.searchKeyword.trim();
+      const placedNamesCount = {};
+
+      for (const groupName of Object.keys(state.seats)) {
+        state.seats[groupName].forEach((seat) => {
+          if (seat && seat.name) {
+            placedNamesCount[seat.name] = (placedNamesCount[seat.name] || 0) + 1;
+          }
+        });
+      }
+
+      const uniqueStudents = initialStudents.map((student, index) => ({
+        ...student,
+        uniqueKey: `${student.name}-${index}`,
+      }));
+
+      const filtered = uniqueStudents.filter((student) => student.name.includes(keyword));
+
+      container.innerHTML = "";
+
+      filtered.forEach((student, index) => {
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.className = "student-chip";
+        chip.textContent = student.name;
+
+        const isSelected = state.selectedStudentKey === student.uniqueKey;
+        if (isSelected) chip.classList.add("selected");
+
+        const occurrencesInCurrentSeats = normalizeStudentPool().filter((name) => name === student.name).length;
+        const initialOccurrences = initialStudents.filter((s) => s.name === student.name).length;
+        if (occurrencesInCurrentSeats >= initialOccurrences) {
+          chip.classList.add("placed");
+        }
+
+        chip.addEventListener("click", () => {
+          if (state.mode !== "manual") return;
+          state.selectedStudentKey = state.selectedStudentKey === student.uniqueKey ? null : student.uniqueKey;
+          render();
+        });
+
+        container.appendChild(chip);
+      });
+
+      if (!filtered.length) {
+        const empty = document.createElement("div");
+        empty.className = "section-desc";
+        empty.textContent = "검색 결과가 없습니다.";
+        container.appendChild(empty);
+      }
+    }
+
+    function createSeatEl(seat, groupName) {
+      if (!seat) {
+        const div = document.createElement("div");
+        div.className = "seat-empty";
+        return div;
+      }
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "seat";
+      if (state.mode === "manual") button.classList.add("manual-active");
+      if (!seat.name) button.classList.add("empty-name");
+      if (state.selectedSeatId === seat.id) button.classList.add("selected-seat");
+
+      button.innerHTML = `
+        <span>${seat.name || "빈자리"}</span>
+        <span class="seat-index">${seat.id}</span>
+      `;
+
+      button.addEventListener("click", () => handleSeatClick(groupName, seat.id));
+      return button;
+    }
+
+    function renderSeats() {
+      const leftGroup = document.getElementById("leftGroup");
+      const centerGroup = document.getElementById("centerGroup");
+      const rightGroup = document.getElementById("rightGroup");
+
+      leftGroup.innerHTML = "";
+      centerGroup.innerHTML = "";
+      rightGroup.innerHTML = "";
+
+      state.seats.left.forEach((seat) => leftGroup.appendChild(createSeatEl(seat, "left")));
+      state.seats.center.forEach((seat) => centerGroup.appendChild(createSeatEl(seat, "center")));
+      state.seats.right.forEach((seat) => rightGroup.appendChild(createSeatEl(seat, "right")));
+    }
+
+    function getStudentByUniqueKey(uniqueKey) {
+      return initialStudents
+        .map((student, index) => ({ ...student, uniqueKey: `${student.name}-${index}` }))
+        .find((student) => student.uniqueKey === uniqueKey);
+    }
+
+    function removeStudentFromAnySeat(studentName) {
+      for (const groupName of Object.keys(state.seats)) {
+        state.seats[groupName] = state.seats[groupName].map((seat) => {
+          if (seat && seat.name === studentName) {
+            return { ...seat, name: "" };
+          }
+          return seat;
+        });
+      }
+    }
+
+    function handleSeatClick(groupName, seatId) {
+      const target = findSeatById(seatId);
+      if (!target) return;
+
+      state.selectedSeatId = seatId;
+
+      if (state.mode !== "manual") {
+        render();
+        return;
+      }
+
+      const student = getStudentByUniqueKey(state.selectedStudentKey);
+
+      if (student) {
+        removeStudentFromAnySeat(student.name);
+        state.seats[groupName][target.index] = { ...target.seat, name: student.name };
+        state.selectedStudentKey = null;
+      } else {
+        state.seats[groupName][target.index] = { ...target.seat, name: "" };
+      }
+
+      render();
+    }
+
+    function shuffleArray(arr) {
+      const copied = [...arr];
+      for (let i = copied.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copied[i], copied[j]] = [copied[j], copied[i]];
+      }
+      return copied;
+    }
+
+    function shuffleSeats() {
+      const names = getAllCurrentStudentNames();
+      const shuffled = shuffleArray(names);
+      let pointer = 0;
+
+      for (const groupName of Object.keys(state.seats)) {
+        state.seats[groupName] = state.seats[groupName].map((seat) => {
+          if (!seat) return null;
+          return { ...seat, name: shuffled[pointer++] || "" };
+        });
+      }
+
+      state.selectedStudentKey = null;
+      state.selectedSeatId = null;
+      render();
+    }
+
+    function getAllCurrentStudentNames() {
+      const names = [];
+      for (const groupName of Object.keys(state.seats)) {
+        state.seats[groupName].forEach((seat) => {
+          if (seat && seat.name) names.push(seat.name);
+        });
+      }
+      return names.length ? names : initialStudents.map((student) => student.name);
+    }
+
+    function resetSeats() {
+      state.seats = structuredClone(initialSeatData);
+      state.selectedStudentKey = null;
+      state.selectedSeatId = null;
+      render();
+    }
+
+    function clearAllSeats() {
+      for (const groupName of Object.keys(state.seats)) {
+        state.seats[groupName] = state.seats[groupName].map((seat) => {
+          if (!seat) return null;
+          return { ...seat, name: "" };
+        });
+      }
+      state.selectedStudentKey = null;
+      state.selectedSeatId = null;
+      render();
+    }
+
+    function updateSummary() {
+      const totalSeats = Object.values(state.seats).flat().filter(Boolean).length;
+      const assigned = Object.values(state.seats)
+        .flat()
+        .filter((seat) => seat && seat.name)
+        .length;
+      const unassigned = totalSeats - assigned;
+
+      document.getElementById("seatCount").textContent = totalSeats;
+      document.getElementById("assignedCount").textContent = assigned;
+      document.getElementById("unassignedCount").textContent = unassigned;
+
+      const selectedStudent = getStudentByUniqueKey(state.selectedStudentKey);
+      document.getElementById("selectedStudentText").textContent = selectedStudent ? selectedStudent.name : "없음";
+      document.getElementById("selectedSeatText").textContent = state.selectedSeatId || "없음";
+      document.getElementById("modeChip").textContent = `현재: ${state.mode === "manual" ? "수동 배치" : "랜덤 배치"}`;
+    }
+
+    function updateModeButtons() {
+      const manualBtn = document.getElementById("manualModeBtn");
+      const randomBtn = document.getElementById("randomModeBtn");
+      const studentSection = document.getElementById("studentSection");
+
+      manualBtn.classList.toggle("active", state.mode === "manual");
+      randomBtn.classList.toggle("active", state.mode === "random");
+
+      if (studentSection) {
+        studentSection.style.display = state.mode === "manual" ? "block" : "none";
+      }
+    }
+
+    function render() {
+      renderStudentList();
+      renderSeats();
+      renderQuickActions();
+      updateSummary();
+      updateModeButtons();
+    }
+
+    function renderQuickActions() {
+      const quickActions = document.getElementById("quickActions");
+      if (!quickActions) return;
+
+      if (state.mode === "manual") {
+        quickActions.innerHTML = `
+          <div class="btn-row">
+            <button class="btn-secondary" id="resetBtn" type="button">초기 배치 복원</button>
+            <button class="btn-secondary" id="clearSelectionBtn" type="button">선택 해제</button>
+          </div>
+          <div class="btn-row">
+            <button class="btn-danger" id="clearAllBtn" type="button">전체 비우기</button>
+          </div>
+        `;
+      } else {
+        quickActions.innerHTML = `
+          <div class="btn-row">
+            <button class="btn-primary" id="shuffleBtn" type="button">전체 랜덤 섞기</button>
+            <button class="btn-secondary" id="resetBtn" type="button">초기 배치 복원</button>
+          </div>
+        `;
+      }
+
+      const shuffleBtn = document.getElementById("shuffleBtn");
+      const resetBtn = document.getElementById("resetBtn");
+      const clearAllBtn = document.getElementById("clearAllBtn");
+      const clearSelectionBtn = document.getElementById("clearSelectionBtn");
+
+      if (shuffleBtn) shuffleBtn.addEventListener("click", shuffleSeats);
+      if (resetBtn) resetBtn.addEventListener("click", resetSeats);
+      if (clearAllBtn) clearAllBtn.addEventListener("click", clearAllSeats);
+      if (clearSelectionBtn) {
+        clearSelectionBtn.addEventListener("click", () => {
+          state.selectedStudentKey = null;
+          state.selectedSeatId = null;
+          render();
+        });
+      }
+    }
+
+    document.getElementById("manualModeBtn").addEventListener("click", () => {
+      state.mode = "manual";
+      render();
+    });
+
+    document.getElementById("randomModeBtn").addEventListener("click", () => {
+      state.mode = "random";
+      state.selectedStudentKey = null;
+      render();
+    });
+
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      state.searchKeyword = e.target.value;
+      renderStudentList();
+    });
+
+    render();
+  </script>
+</body>
+</html>
