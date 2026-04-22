@@ -1,0 +1,37 @@
+h1, h2 {
+    text-align: center;
+}
+
+#calender{
+    width: 100%;
+    border-collapse: collapse;
+    /* border: 1px solid black; */
+}
+
+/* #calender th:first-child, #calender td:first-child */
+/* calender id를 가지고 그 아래에 있는 모든 th, tb의 첫번째 */
+#calender tr > *:first-child { 
+    color: red;
+}
+
+#calender th:last-child,
+#calender td:last-child {
+    color: blue;
+}
+
+#calender th { /* #calender th: calender 밑에 있는 모든 th*/
+                /* #calender > th: calender 바로 밑에 있는 th*/
+    width: 14%;
+    padding: 10px;
+    background-color: rgb(238, 238, 238);
+}
+
+#calender td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid black;
+}
+
+img {
+    width: 100%;
+}
