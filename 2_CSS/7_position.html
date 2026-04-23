@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .location{
+            background-color: orangered;
+            position: absolute; /*relative 상대적, absolute 절대적*/
+            top: 50px;
+            left: 50px;
+        }
+        .image {
+            background-image: url(images/rabbit.jpeg);
+        }
+        .image_text {
+            position: relative;
+            top: 50px;
+            left: 50px;
+        }
+        div{
+            width: 100px;
+            height: 100px;
+            color: white;
+            background-color: orange;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div> -->
+        <div>1</div>
+        <div class="location">2</div>
+        <div>3</div>
+        <div class="image">
+            <p class="image_text">토끼</p>
+        </div>
+    <!-- </div> -->
+</body>
+</html>
