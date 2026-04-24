@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tailwind + AOS Scroll Motion Demo</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 2400px;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(59,130,246,.35), transparent 30%),
+        radial-gradient(circle at 85% 20%, rgba(236,72,153,.3), transparent 28%),
+        radial-gradient(circle at 50% 70%, rgba(34,197,94,.18), transparent 35%),
+        #020617;
+      overflow-x: hidden;
+    }
+    .glass {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(18px);
+    }
+    .floaty {
+      animation: floaty 5s ease-in-out infinite;
+    }
+    @keyframes floaty {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+  </style>
+</head>
+
+<body class="text-white">
+  <nav class="fixed top-0 z-50 w-full border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <b class="text-xl">Scroll Magic</b>
+      <a href="#gallery" class="rounded-full bg-white px-5 py-2 text-sm font-bold text-slate-950">
+        예제 보기
+      </a>
+    </div>
+  </nav>
+
+  <section class="flex min-h-screen items-center px-6 pt-24">
+    <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-2">
+      <div data-aos="fade-right" data-aos-duration="1200">
+        <p class="mb-4 text-sm font-bold uppercase tracking-[.4em] text-cyan-300">
+          TailwindCSS + AOS
+        </p>
+        <h1 class="text-5xl font-black leading-tight md:text-7xl">
+          스크롤할 때마다<br />
+          <span class="bg-gradient-to-r from-cyan-300 via-fuchsia-300 to-amber-200 bg-clip-text text-transparent">
+            장면이 등장하는
+          </span>
+          페이지
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-slate-300">
+          fade, flip, zoom, delay, duration, offset을 섞어 화려한 랜딩 페이지 느낌으로 만든 예제입니다.
+        </p>
+      </div>
+
+      <div class="relative" data-aos="zoom-in-left" data-aos-duration="1400">
+        <div class="floaty glass rounded-[2rem] p-8 shadow-2xl shadow-cyan-500/20">
+          <div class="h-72 rounded-[1.5rem] bg-gradient-to-br from-cyan-400 via-fuchsia-500 to-orange-300 p-1">
+            <div class="flex h-full items-center justify-center rounded-[1.4rem] bg-slate-950/80">
+              <span class="text-8xl">✨</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="mx-auto max-w-6xl px-6 py-32">
+    <div class="mb-20 text-center" data-aos="fade-up">
+      <h2 class="text-4xl font-black md:text-6xl">Animation Examples</h2>
+      <p class="mt-4 text-slate-400">각 카드마다 다른 AOS 동작이 적용되어 있습니다.</p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-3">
+      <div class="glass rounded-3xl p-8" data-aos="fade-up" data-aos-delay="0">
+        <div class="mb-6 text-5xl">🚀</div>
+        <h3 class="text-2xl font-bold">Fade Up</h3>
+        <p class="mt-3 text-slate-300">아래에서 부드럽게 올라옵니다.</p>
+      </div>
+
+      <div class="glass rounded-3xl p-8" data-aos="flip-left" data-aos-delay="150">
+        <div class="mb-6 text-5xl">🌀</div>
+        <h3 class="text-2xl font-bold">Flip Left</h3>
+        <p class="mt-3 text-slate-300">카드가 회전하며 등장합니다.</p>
+      </div>
+
+      <div class="glass rounded-3xl p-8" data-aos="zoom-in" data-aos-delay="300">
+        <div class="mb-6 text-5xl">💎</div>
+        <h3 class="text-2xl font-bold">Zoom In</h3>
+        <p class="mt-3 text-slate-300">확대되며 시선을 끕니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-6 py-32">
+    <div class="grid items-center gap-12 lg:grid-cols-2">
+      <div data-aos="fade-right" data-aos-offset="300" data-aos-duration="1200">
+        <div class="rounded-[2rem] bg-gradient-to-br from-violet-500 to-cyan-400 p-1">
+          <div class="rounded-[1.8rem] bg-slate-950 p-10">
+            <p class="text-7xl">🌌</p>
+            <h2 class="mt-8 text-4xl font-black">Offset Motion</h2>
+            <p class="mt-4 text-slate-300">
+              `data-aos-offset="300"`으로 더 깊게 스크롤했을 때 나타나게 설정했습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div class="glass rounded-2xl p-6" data-aos="fade-left" data-aos-delay="100">
+          <b>01. 느린 등장</b>
+          <p class="text-slate-400">duration을 길게 주면 고급스러운 느낌이 납니다.</p>
+        </div>
+        <div class="glass rounded-2xl p-6" data-aos="fade-left" data-aos-delay="250">
+          <b>02. 순차 등장</b>
+          <p class="text-slate-400">delay를 다르게 주면 카드가 차례대로 나타납니다.</p>
+        </div>
+        <div class="glass rounded-2xl p-6" data-aos="fade-left" data-aos-delay="400">
+          <b>03. 레이어 연출</b>
+          <p class="text-slate-400">배경 그라디언트와 glass 효과를 섞었습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative mx-auto max-w-6xl px-6 py-40">
+    <div class="absolute left-1/2 top-20 h-[600px] w-px bg-gradient-to-b from-transparent via-white/40 to-transparent"></div>
+
+    <div class="space-y-24">
+      <div class="flex justify-start" data-aos="fade-up-right">
+        <div class="glass max-w-md rounded-3xl p-8">
+          <span class="text-4xl">🔥</span>
+          <h3 class="mt-4 text-2xl font-bold">fade-up-right</h3>
+          <p class="mt-2 text-slate-300">오른쪽 위 방향으로 등장합니다.</p>
+        </div>
+      </div>
+
+      <div class="flex justify-end" data-aos="fade-up-left">
+        <div class="glass max-w-md rounded-3xl p-8">
+          <span class="text-4xl">⚡</span>
+          <h3 class="mt-4 text-2xl font-bold">fade-up-left</h3>
+          <p class="mt-2 text-slate-300">반대 방향에서 등장합니다.</p>
+        </div>
+      </div>
+
+      <div class="flex justify-start" data-aos="zoom-out-right">
+        <div class="glass max-w-md rounded-3xl p-8">
+          <span class="text-4xl">🎭</span>
+          <h3 class="mt-4 text-2xl font-bold">zoom-out-right</h3>
+          <p class="mt-2 text-slate-300">축소되듯 자연스럽게 나타납니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-6 py-40">
+    <div class="mx-auto max-w-5xl rounded-[3rem] bg-gradient-to-r from-fuchsia-500 via-cyan-400 to-emerald-300 p-1"
+         data-aos="flip-up"
+         data-aos-duration="1400">
+      <div class="rounded-[2.8rem] bg-slate-950 p-12 text-center">
+        <p class="text-6xl">🎉</p>
+        <h2 class="mt-8 text-4xl font-black md:text-6xl">마지막 CTA 영역</h2>
+        <p class="mx-auto mt-5 max-w-2xl text-slate-300">
+          Tailwind의 디자인 유틸리티와 AOS의 스크롤 트리거를 섞으면
+          랜딩 페이지, 포트폴리오, 제품 소개 페이지에 바로 활용할 수 있습니다.
+        </p>
+        <button class="mt-10 rounded-full bg-white px-8 py-4 font-black text-slate-950 transition hover:scale-105">
+          Start Building
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="px-6 py-16 text-center text-slate-500">
+    최소 높이 2000px 이상 / TailwindCSS + AOS Demo
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      once: false,
+      mirror: true,
+      duration: 900,
+      easing: 'ease-out-cubic',
+      offset: 120
+    });
+  </script>
+</body>
+</html>
