@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <div class="min-h-screen flex items-center justify-center bg-gray-100">
+        <form class="w-[35%] min-w-[320px] rounded-2xl bg-white p-8 shadow-[12px_12px_30px_rgba(0,0,0,0.35)]">
+            <h2 class="mb-6 text-center text-2xl font-bold text-gray-800">
+                Login
+            </h2>
+
+            <div class="mb-4">
+                <label class="mb-2 block text-sm font-medium text-gray-700">
+                    Username
+                </label>
+                <input type="text" placeholder="Enter username"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-700" />
+            </div>
+
+            <div class="mb-6">
+                <label class="mb-2 block text-sm font-medium text-gray-700">
+                    Password
+                </label>
+                <input type="password" placeholder="Enter password"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-gray-700" />
+            </div>
+
+            <button type="submit" class="w-full rounded-lg bg-gray-800 py-3 font-semibold text-white hover:bg-black">
+                로그인
+            </button>
+        </form>
+    </div>
+</body>
+
+</html>
