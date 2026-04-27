@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>버튼 두 개</h1>
+    <div id="number">0</div> <!--이걸 가져다가-->
+    <div>
+        <button id="plus" onclick="plus()">+1</button>
+        <button id="minus" onclick="minus()">-1</button>
+    </div>
+
+    <script>
+        // 각자의 버튼이 눌릴 때마다 위의 div의 값을 가져다가 +1 또는 -1을 한다.
+        function plus() {
+            const num = parseInt(document.getElementById('number').textContent);
+            console.log(num)
+            number.innerHTML = num+1
+        }
+        function minus() {
+            const num = parseInt(document.getElementById('number').textContent);
+            console.log(num)
+            number.innerHTML = num-1
+        }
+        // function minus() {
+        //     document.getElementById('number').textContent -=1;
+        // }
+    </script>
+</body>
+</html>
