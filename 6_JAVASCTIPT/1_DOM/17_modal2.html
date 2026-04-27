@@ -22,30 +22,29 @@
     </div> -->
     <script>
         const open = document.getElementById('open')
-        
-        const modal = document.querySelector('.modal-wrapper');
-        
-        open.onclick = () => {
-            const modalWrpper = document.createElement(div);
-            modalWrapper.className = 'modal-wrapper'
-            modal.style.display = 'flex';
-            <div class="modal-wrapper" style="display: none">
-                <div class="modal-title">안녕하세요</div>
-                <p>모달에 입력할 내용을 작성</p>
-                <div class="close-wrapper">
-                    <button id="close">닫기</button>
-                    </div>
-                    </div>
-                    
-                    document.body.appendChild(modalWapper);
-                    
-                    document.getElementById('close').onclick = ()=> {
-                        modalWrpper.remove();
-                    }
-                }
                 
-        const close = document.getElementById('close')
+        open.onclick = () => {
+            const modalWrapper = document.createElement('div');
+            modalWrapper.className = 'modal-wrapper'
 
+            modalWrapper.innerHTML = `
+                <div class="modal">
+                    <div class="modal-title">안녕하세요</div>
+                    <p>모달에 입력할 내용을 작성</p>
+                    <div class="close-wrapper">
+                        <button id="close">닫기</button>
+                    </div>
+                </div>
+            `    
+            //body의 끝에 추가함
+            document.body.appendChild(modalWrapper);
+                    
+            //닫기 버튼에는 이벤트 붙이기
+            document.getElementById('close').onclick = ()=> {
+                modalWrapper.remove();
+            }
+        }
+                
         close.onclick = () => {
             modal.style.display = 'none';
         }
