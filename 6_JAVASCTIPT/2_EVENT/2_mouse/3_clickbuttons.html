@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #mybutton {
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="mybutton">클릭하시오</div>
+    <script>
+        const button = document.getElementById('mybutton');
+        // button.addEventListener('mousedown', () => {
+        //     console.log('버튼 눌림')
+        // })
+        button.addEventListener('mousedown', (event) => {
+            console.log('버튼 눌림: ', event)
+
+            switch(event.button) {
+                case 0: //왼쪽 버튼
+                    console.log('왼쪽 버튼 눌림');
+                    break;
+                case 1: //가운데 버튼
+                    console.log('가운데 버튼 눌림');
+                    break;
+                case 2: //오른쪽 버튼
+                    console.log('오른쪽 버튼 눌림');
+                    break;
+                default:
+                console.log('뭔지 모르는 버튼 눌림', event.button)
+            }
+        })
+        button.addEventListener('mouseup', (event) => {
+            console.log('버튼 뗌: ', event)
+
+            switch(event.button) {
+                case 0: //왼쪽 버튼
+                    console.log('왼쪽 버튼 뗌');
+                    break;
+                case 1: //가운데 버튼
+                    console.log('가운데 버튼 뗌');
+                    break;
+                case 2: //오른쪽 버튼
+                    console.log('오른쪽 버튼 뗌');
+                    break;
+                default:
+                console.log('뭔지 모르는 버튼 뗌', event.button)
+            }
+        })
+        </script>
+</body>
+</html>
