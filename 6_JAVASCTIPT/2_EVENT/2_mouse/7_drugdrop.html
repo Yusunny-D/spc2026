@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #dragItem {
+            width: 100px;
+            height: 100px;
+            background-color: #ffcc00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1;
+        }
+
+        .dropContainer {
+            width: 200px;
+            height: 200px;
+            background-color: #f0f0f0;
+            border: 2px dashed #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .placeholder {
+            position: absolute;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div id="startzone" class="dropContainer">
+        <span class="placeholder" id="startPlaceholde">Drop here</span>
+        <div id="dragItem" draggable="true">Drag me</div>
+    </div>
+    <div id="dropzone" class="dropContainer">
+        <span class="placeholder" id="dropPlaceholder">Drop here</span>
+    </div>
+    <script>
+        const dragItem = document.getElementById('dragItem');
+        const dropzone = document.getElementById('dropzone');
+        const startzone = document.getElementById('startzone');
+        // dragItem.addEventListener('dragstart', () => {
+        //     console.log('drag started')
+        // })
+        // startzone.addEventListener('dragover', (ev) => {
+        //     ev.preventDefault();
+        //     console.log('startzone 위에 있음')
+        // })
+        // startzone.addEventListener('drop', (ev) => {
+            //     ev.preventDefault();
+            //     console.log('여기에 놓았음');
+            
+            //     startzone.appendChild(dragItem);
+            // })
+            // dropzone.addEventListener('dragover', (ev) => {
+                //     ev.preventDefault();
+                //     console.log('dropzone 위에 있음')
+                // })
+                // dropzone.addEventListener('drop', (ev) => {
+                    //     ev.preventDefault();
+                    //     console.log('여기에 놓았음');
+                    
+                    //     dropzone.appendChild(dragItem); //DOM요소를 append하면 그 가지 차체가 옮겨짐
+                    // })
+                    
+        [startzone, dropzone].forEach((zone) => {
+            zone.addEventListener('dragover', (ev) => {
+                ev.preventDefault();
+                console.log('위에 있음')
+                
+            });
+        });
+            
+        [startzone, dropzone].forEach((zone) => {
+            zone.addEventListener('drop', (ev) => {
+                ev.preventDefault();
+                console.log('여기에 놓았음');
+            
+                zone.appendChild(dragItem); //DOM요소를 append하면 그 가지 차체가 옮겨짐
+            });
+        });
+        </script>
+</body>
+</html>

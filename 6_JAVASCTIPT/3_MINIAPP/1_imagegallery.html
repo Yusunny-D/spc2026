@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>이미지 갤러리</h1>
+    <div class="gallery">
+        <img id='img1' src="images/images.jpeg" width="100px">
+        <img id='img2' src="images/s222carp68n7e5wi691u.jpg" width="100px">
+        <img id='img3' src="images/y71cy91bgj367gl7d4ee.jpg" width="100px">
+    </div>
+    <!-- 방법1. -->
+    <img id="large-image" src="">
+    <script>
+        // const img1 = document.getElementById('img1');
+        // img1.addEventListener('click', () => {
+        //     const large = document.getElementById('large-image');
+        //     large.src = img1.src;
+        //     large.width = '400';
+        // })
+        const img1 = document.getElementById('img1');
+        const img2 = document.getElementById('img2');
+        const img3 = document.getElementById('img3');
+
+        const imgs= [img1, img2, img3]
+        imgs.forEach((img) => {
+                    img1.addEventListener('click', () => {
+            const large = document.getElementById('large-image');
+            large.src = img.src;
+            large.width = '400';
+        })}
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #mybutton {
+            width: 100px;
+            height: 100px;
+            background-color: lightblue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="mybutton">우클릭하시오</div>
+    <script>
+        //특정 요소만 막기
+        document.getElementById('mybutton').addEventListener('contextmenu', (ev) => {
+            ev.preventDefault(); // 기본 기능을 하지 모하게함
+            console.log('우클릭 성공!')
+        })
+
+        // 페이지 모든 곳 다 막기
+        document.addEventListener('contextmenu', (ev) => {
+            ev.preventDefault();
+            alert('우리 사이트에서는 우클릭이 막혀있습니다.')
+        })
+    </script>
+</body>
+</html>
