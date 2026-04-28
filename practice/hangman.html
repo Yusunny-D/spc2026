@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #display {
+        display: flex;
+        gap: 10px;        
+        }
+        #userhistory {
+        display: flex;
+        gap: 10px;       
+        }
+    </style>
+</head>
+<body>
+    <h1>Hangman Game</h1>
+    <div id="display">
+        <!-- 글자 보이는 부분 -->
+         <h2>_</h2>
+         <h2>_</h2>
+         <h2>_</h2>
+         <h2>_</h2>
+         <h2>_</h2>
+    </div>
+    <input id="userinput" type="text" placeholder="알파벳을 입력하세요.">
+    <button id="guessButton" onclick="guess()">입력</button>
+    <div>
+        <p id="chance">남은 기회: 6</p>
+    </div>
+    <div id="userhistory">
+        <!-- 사용한 글자 -->
+    </div>
+    <div id="result"><!--게임 결과--></div>
+    <button id="newGame" onclick="New()">새 게임</button>
+
+    <script>
+        const wordslist = ['apple', 'beach', 'cloud', 'dream', 'flame', 'grape', 'house', 'light', 'magic', 'ocean', 'smile', 'tiger', 'water', 'world', 'youth'];
+        const display = document.getElementById('display')
+        const userhistory = document.getElementById('userhistory')
+        const chance = document.getElementById('chance')
+        const result = document.getElementById('result')
+        let word = wordslist[parseInt(Math.floor(Math.random() * 15))]
+        console.log(word);
+        let i = 0;
+        
+        function guess() {
+            const userinput = document.getElementById('userinput').value;
+            console.log(userinput)
+            // console.log(display.firstElementChild.textContent)
+
+            if (word.includes(userinput)) {
+                if (word.indexOf(userinput) == 0) {
+                display.children[0].textContent = userinput
+                }
+                if (word.indexOf(userinput) == 1) {
+                display.children[1].textContent = userinput
+                }
+                if (word.indexOf(userinput) == 2) {
+                display.children[2].textContent = userinput
+                }
+                if (word.indexOf(userinput) == 3) {
+                display.children[3].textContent = userinput
+                }
+                if (word.indexOf(userinput) == 4) {
+                display.children[4].textContent = userinput
+                }
+            } else {
+                i += 1
+                console.log(i)
+                chance.textContent = `남은 기회: ${6-i}`
+                
+                const p = document.createElement('p');
+                p.textContent = userinput;
+                userhistory.appendChild(p);
+            }
+            
+            if(i == 6) {
+                result.textContent = `Game Over! 정답은 ${word}입니다.`
+                guessButton.disabled =true;
+            }
+            
+        };
+
+        function New() {
+            word = wordslist[Math.floor(Math.random() * 15)]
+            console.log(word)
+            i=0
+            chance.textContent = '남은 기회: 6'
+            result.textContent = ''
+            userhistory.innerHTML = ''
+            for(let j = 0; j < 5; j++) {
+            display.children[j].textContent = '_'
+            }
+            guessButton.disabled = false;
+
+        }
+
+        </script>
+</body>
+</html>
