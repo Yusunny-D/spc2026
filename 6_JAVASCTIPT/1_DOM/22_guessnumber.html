@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>숫자 맞추기 게임</h1>
+    <h2>1~100까지의 숫자를 맞춰보세요.</h2>
+    <input type="number" id="guessNumber" placeholder="숫자를 입력하세요.">
+    <button id="guessButton" onclick="guessNumber()">Guess</button>
+    <div id="result"></div>
+
+    <script>
+        const randomNumber = Math.floor(Math.random() * 100)  +1; //0~99까지  -> 1부터 100까지
+        console.log(randomNumber)
+        const result = document.getElementById('result')
+        
+        function guessNumber() {         
+            const guessNumber = document.getElementById('guessNumber').value;
+            if (guessNumber < randomNumber) {
+                result.textContent = '숫자가 작습니다. 더 큰 숫자를 입력해주세요' 
+            } else if (guessNumber > randomNumber) {
+                result.textContent = '숫자가 큽니다. 더 작은 숫자를 입력해주세요' 
+            } else {
+                result.textContent ='축하합니다. 정답을 맞췄습니다!'
+            }
+        }
+    </script>
+</body>
+</html>

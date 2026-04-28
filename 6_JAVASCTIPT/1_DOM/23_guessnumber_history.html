@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>숫자 맞추기 게임</h1>
+    <h2>1~100까지의 숫자를 맞춰보세요.</h2>
+    <input type="number" id="guess" placeholder="숫자를 입력하세요.">
+    <button id="guessButton" onclick="guessNumber()">Guess</button>
+    <div><ol id="history"></ol></div>
+    <div id="result"></div>
+
+    <script>
+        const randomNumber = Math.floor(Math.random() * 100)  +1; //0~99까지  -> 1부터 100까지
+        console.log(randomNumber);
+        const result = document.getElementById('result');
+        const history = document.getElementById('history');
+        
+        function guessNumber() {         
+            const guess = document.getElementById('guess').value;
+            if (guess < randomNumber) {
+                result.textContent = '숫자가 작습니다.' 
+            } else if (guess > randomNumber) {
+                result.textContent = '숫자가 큽니다.' 
+            } else {
+                result.textContent ='축하합니다. 정답을 맞췄습니다!'
+            }
+            //사용자가 입력한 모든 히스토리를 아래에 보여준다. 즉, 매 새로운 guess마다 새로운 DOM을 추가
+            //정답을 맞췄을 때 몇번만에 맞췄는지 알려준다. 
+            const li = document.createElement('li');
+            li.textContent = `입력한 값은 ${guess}: ${result.textContent}`;
+            history.appendChild(li);
+
+        }
+    </script>
+</body>
+</html>
