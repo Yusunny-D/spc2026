@@ -5,7 +5,7 @@ const timeInput = document.getElementById('timeInput')
 const progress = document.getElementById('progress')
 const progressText = document.getElementById('progressText')
 const startButton = document.getElementById('startButton')
-const clearButton = document.getElementById('clearBut0ton')
+const clearButton = document.getElementById('clearButton')
 
 startButton.addEventListener('click', startProgress)
 clearButton.addEventListener('click', clearProgress)
@@ -33,7 +33,7 @@ function startProgress() {
 }
 
 function clearProgress() {
-    if (timerID) { clearInterval(timerID) };
+    if (timerID) clearInterval(timerID);
     progress.style.width = '2px' // 살짝 보이게
     timeInput.value = "";
     progressText.textContent = '0%';
