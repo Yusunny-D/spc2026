@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+    /* 전체 배경 */
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #ffd6e7, #d6f0ff);
+        font-family: "Comic Sans MS", "Pretendard", sans-serif;
+    }
+
+    /* 스톱워치 박스 */
+    .stopwatch-box {
+        background: #fffafc;
+        padding: 35px;
+        border-radius: 30px;
+        box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
+        text-align: center;
+        width: 340px;
+        border: 4px solid #ffe4ec;
+    }
+
+    /* 시간 표시 */
+    #display {
+        font-size: 52px;
+        font-weight: bold;
+        color: #ff6b9d;
+        background: #fff0f5;
+        padding: 20px;
+        border-radius: 20px;
+        margin-bottom: 25px;
+        border: 3px dashed #ffb6c1;
+        letter-spacing: 3px;
+    }
+
+    /* 버튼 영역 */
+    .button-container {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+    }
+
+    /* 버튼 공통 */
+    button {
+        border: none;
+        padding: 12px 18px;
+        border-radius: 50px;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    /* 시작 버튼 */
+    #startButton {
+        background: #ff9ecb;
+    }
+
+    /* 정지 버튼 */
+    #stopButton {
+        background: #ffb347;
+    }
+
+    /* 리셋 버튼 */
+    #restartButton {
+        background: #7ec8ff;
+    }
+
+    /* 호버 효과 */
+    button:hover {
+        transform: translateY(-3px) scale(1.05);
+        opacity: 0.9;
+    }
+
+    /* 클릭 효과 */
+    button:active {
+        transform: scale(0.95);
+    }
+
+
+    button:not(:disabled):hover {
+    transform: translateY(-3px) scale(1.05);
+    opacity: 0.9;
+    }
+
+    button:not(:disabled):active {
+        transform: scale(0.95);
+    }
+
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+
+    /* 귀여운 장식 */
+    .stopwatch-box::before {
+        content: "⏰";
+        font-size: 40px;
+        display: block;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+    <!-- 스톱워치 전체 -->
+    <div class="stopwatch-box">
+        <!-- 스톱워치 표시 영역 -->
+        <div id="display">00:00.00</div>
+        <div class="button-container">
+            <button id="startButton">start</button>
+            <button id="stopButton">stop</button>
+            <button id="restartButton">restart</button>
+        </div>
+    </div>
+    <script>
+        // 1. DOM요소를 가져오기
+        const start = document.getElementById('startButton');
+        const stop = document.getElementById('stopButton');
+        const restart = document.getElementById('restartButton');
+        const display = document.getElementById('display');
+
+        // 2. 로직 구현
+        let startTime; // 시작할 때마다 시작 시간 가져오기
+        let difference = 0; //경과시간
+        let running = false; //현재 타이머 상태
+        let timerId;
+        let savedTime = 0;
+
+        function startTimer() {
+            if (running) return;
+
+            running = true
+            startTime = new Date().getTime(); //시작 시간 가져오기
+            timerId = setInterval(updateTimer, 10) //매 10ms마다 갱신하기
+            start.disabled = true;
+            stop.disabled = false;
+        }
+        
+        function updateTimer() {
+            // 시간 가져와서 갱신하기
+            if (!running) return;
+            updatedTime= new Date().getTime();
+            if (savedTime > 0 ) {difference = updatedTime - startTime + savedTime}
+            else {difference = updatedTime - startTime};
+            
+            let minutes = Math.floor((difference % (1000 * 60 * 60))/(1000 * 60));
+            let seconds = Math.floor((difference % (1000 * 60))/(1000));
+            let milliseconds = Math.floor((difference % (1000))/(10));
+            
+            // console.log(`흘러간 시간 계산 ${minutes}, ${seconds}, ${milliseconds}`)
+            display.textContent =
+            (minutes < 10 ? '0' + minutes : minutes) + ':'+
+            (seconds < 10 ? '0' + seconds : seconds) + '.'+
+            (milliseconds < 10 ? '0' + milliseconds : milliseconds)
+            ;
+        }
+        
+        function stopTimer() {
+            running = false;
+            savedTime = difference
+            
+            let minutes = Math.floor((savedTime % (1000 * 60 * 60))/(1000 * 60));
+            let seconds = Math.floor((savedTime % (1000 * 60))/(1000));
+            let milliseconds = Math.floor((savedTime % (1000))/(10));
+            
+            display.textContent =
+            (minutes < 10 ? '0' + minutes : minutes) + ':'+
+            (seconds < 10 ? '0' + seconds : seconds) + '.'+
+            (milliseconds < 10 ? '0' + milliseconds : milliseconds)
+            ;
+            start.disabled = false;
+            stop.disabled = true;
+        }
+
+
+        function restartTimer() {
+            clearInterval(timerId);
+            display.textContent = '00:00.00'
+            running = false;
+            savedTime = 0;
+            difference = 0;
+            start.disabled = false;
+            stop.disabled = false;
+        }
+
+        start.addEventListener('click', startTimer);
+        stop.addEventListener('click', stopTimer);
+        restart.addEventListener('click', restartTimer);
+    </script>
+</body>
+</html>

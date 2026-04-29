@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input {
+            padding: 10px;
+            font-size: 10px;
+        }
+        ul {
+            list-style: none;
+            padding: 10px;
+        }
+        li{
+            padding: 5px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>실시간 검색 필터</h1>
+    <input id="searchInput" type="text" placeholder="검색어를 입력하세요.">
+    <ul id="itemList">
+        <li>Apple</li>
+        <li>Banana</li>
+        <li>Orange</li>
+        <li>Grape</li>
+        <li>Strawberry</li>
+        <li>Watermelon</li>
+        <li>Pineapple</li>
+        <li>Mango</li>
+        <li>Peach</li>
+        <li>Cherry</li>
+        <li>Lemon</li>
+        <li>Lime</li>
+        <li>Blueberry</li>
+        <li>Raspberry</li>
+        <li>Pear</li>
+        <li>Kiwi</li>
+        <li>Papaya</li>
+        <li>Coconut</li>
+        <li>Avocado</li>
+        <li>Pomegranate</li>
+    </ul>
+    <script>
+
+        // 오답노트~
+        // const searchInput = document.getElementById('searchInput');
+        // const fruits = document.querySelectorAll('#itemList li')
+        // const itemList = document.getElementById('itemList')
+        
+        // function search() {
+            //     fruits.forEach((fruit) => {
+                //         if (fruit.includes(searchInput)) {
+                    //             itemList.
+                    //         }
+                    //     })
+                    // }
+                    
+        //강사님 답
+        const searchInput = document.getElementById('searchInput');
+        const itemList = document.getElementById('itemList')
+        const items = itemList.getElementsByTagName('li')
+
+        searchInput.addEventListener('keyup', () => {
+            // //필터링 구현
+            const filter = searchInput.value.toLowerCase();
+            //첫 번째 답
+            // for (let i = 0; i < item.length; i++) {
+            //     const item = items[i];
+            //     const text = item.textContent;
+            //     if (text.toLowerCase().includes(filter)) {
+            //         item.style.display='';
+            //     } else {
+            //         item.style.display='none';
+            //     }
+            // }
+
+            //두 번째 답
+            Array.from(items).forEach((item) => {
+                const text = item.textContent
+                if (text.toLowerCase().includes(filter)) {
+                    item.style.display='';
+                } else {
+                    item.style.display='none';
+                }
+            }
+            )});
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .done{
+            text-decoration: line-through
+        }
+        #todo-list li {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>To Do List</h1>
+    <input type="text" id="new-todo" placeholder="할 일 입력">
+    <button id="add-todo">추가</button>
+    <ul id="todo-list"><!-- 할 일들이 표시될 곳--></ul>
+    
+    <script>
+        // 1. 추가 구현
+        // 1-1. 버튼이 클릭되면 추가
+        // 1-2. 거기 값을 읽어와서 ul아래 li에 추가하기
+        
+        document.getElementById('add-todo').addEventListener('click', () => {
+            const inputTodo = document.getElementById('new-todo').value;
+            const new_li = document.createElement('li');
+            
+            if (inputTodo.trim() == '') return; // 입력값의 빈칸 지우기
+
+            new_li.textContent = inputTodo;
+
+            new_li.addEventListener('click', () => {
+                // if (new_li.classList.contains('done')) {
+                //     new_li.classList.remove('done')
+                // } else {
+                // new_li.classList.add('done') }
+                new_li.classList.toggle('done')
+            });
+
+            const list = document.getElementById('todo-list');
+            list.appendChild(new_li);
+
+            document.getElementById('new-todo').value=''; // 입력칸 비우기
+
+        });
+
+        // 기능 개선: 엔트를 통한 버튼 추가 클릭 효과
+        document.getElementById('new-todo').addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter') {
+                document.getElementById('add-todo').click();
+            }});
+
+        // 2.완료 구현
+        // 2-1. li 클릭해서 완료 상태 표시(css로 strike)
+        // 2-2. 완료 취소 기능 추가 (2-1과 반대 완료인 줄 알았는데 아님)
+
+        function done() { 
+            const todoList = document.querySelectorAll('#todo-list li')
+            console.log(todoList)
+            // list.style = 'text-decoration: line-through';
+        }
+
+        li.addEventListener('click', done)
+
+        // 3. 삭제 구현
+        // 3-1. 삭제 버튼을 각 항목에 추가
+        // 3-2. 삭제 버튼으로 해당 요소 삭제
+
+        // 4. 디자인(추가로 할 수 있으면)
+    </script>
+</body>
+</html>
