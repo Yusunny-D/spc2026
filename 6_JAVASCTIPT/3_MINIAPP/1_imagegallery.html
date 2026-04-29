@@ -27,11 +27,12 @@
 
         const imgs= [img1, img2, img3]
         imgs.forEach((img) => {
-                    img1.addEventListener('click', () => {
+                    img.addEventListener('click', () => {
             const large = document.getElementById('large-image');
             large.src = img.src;
             large.width = '400';
-        })}
+        });
+    });
 
     </script>
 </body>
