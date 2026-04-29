@@ -45,6 +45,7 @@
         let word = wordslist[parseInt(Math.floor(Math.random() * 15))]
         console.log(word);
         let i = 0;
+        let w = 0;
         
         function guess() {
             const userinput = document.getElementById('userinput').value;
@@ -53,32 +54,42 @@
 
             if (word.includes(userinput)) {
                 if (word.indexOf(userinput) == 0) {
-                display.children[0].textContent = userinput
+                display.children[0].textContent = userinput;
+                w += 1;
                 }
                 if (word.indexOf(userinput) == 1) {
-                display.children[1].textContent = userinput
+                    display.children[1].textContent = userinput
+                    w += 1;
                 }
                 if (word.indexOf(userinput) == 2) {
-                display.children[2].textContent = userinput
+                    display.children[2].textContent = userinput
+                    w += 1;
                 }
                 if (word.indexOf(userinput) == 3) {
-                display.children[3].textContent = userinput
+                    display.children[3].textContent = userinput
+                    w += 1;
                 }
                 if (word.indexOf(userinput) == 4) {
-                display.children[4].textContent = userinput
+                    display.children[4].textContent = userinput
+                    w += 1;
+                    }
+                } else {
+                    i += 1
+                    console.log(i)
+                    chance.textContent = `남은 기회: ${6-i}`
+                    
+                    const p = document.createElement('p');
+                    p.textContent = userinput;
+                    userhistory.appendChild(p);
                 }
-            } else {
-                i += 1
-                console.log(i)
-                chance.textContent = `남은 기회: ${6-i}`
-                
-                const p = document.createElement('p');
-                p.textContent = userinput;
-                userhistory.appendChild(p);
-            }
             
             if(i == 6) {
                 result.textContent = `Game Over! 정답은 ${word}입니다.`
+                guessButton.disabled =true;
+            }
+            
+            if (w == 5) {
+                result.textContent = `축하합니다! 정답은 ${word}입니다.`
                 guessButton.disabled =true;
             }
             
