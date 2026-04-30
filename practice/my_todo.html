@@ -15,7 +15,9 @@
         // 1. 추가 구현
         // 1-1. 버튼이 클릭되면 추가
         // 1-2. 거기 값을 읽어와서 ul아래 li에 추가하기
-        document.getElementById('add-todo').addEventListener('click', () => {
+        const addTodo = document.getElementById('add-todo')
+
+        addTodo.addEventListener('click', () => {
             const new_todo = document.getElementById('new-todo').value;
             const new_li = document.createElement('li');
 
@@ -30,11 +32,18 @@
         })
 
         // 기능 개선: 엔트를 통한 버튼 추가 클릭 효과
+            document.getElementById('new-todo').addEventListener('keydown', (key) => {
+                if (key.key === 'Enter') {
+                    addTodo.click();
+                };
+            });
         
         
         // 2.완료 구현
         // 2-1. li 클릭해서 완료 상태 표시(css로 strike)
         // 2-2. 완료 취소 기능 추가 (2-1과 반대 완료인 줄 알았는데 아님)
+
+        // 아이디어 - 
 
        
         // 3. 삭제 구현
