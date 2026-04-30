@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="400" height="300"></canvas>
+    <script>
+        const canvas = document.getElementById('myCanvas')
+        const context = canvas.getContext('2d')
+
+        context.beginPath();
+        context.arc(75, 75, 50, 0, Math.PI*2)
+        context.moveTo(65, 65);
+        context.arc(60, 65, 5, 0, Math.PI*2) // 왼쪽 눈
+        context.moveTo(95, 65);
+        context.arc(90, 65, 5, 0, Math.PI*2) // 오른쪽 눈
+        context.moveTo(110, 75);
+        context.arc(75, 75, 30, 0, Math.PI) // 반원 입
+        context.stroke();
+        context.closePath();
+        
+        
+        
+        context.beginPath();
+        context.moveTo(300, 100);
+
+        let startAngle = 0.4;
+        let endAngle = 2*Math.PI - 0.4;
+        context.arc(300, 100, 50, startAngle, endAngle)
+        context.lineTo(300, 100);
+
+        context.fillStyle = 'yellow'
+        context.fill();
+
+        context.stroke();
+        context.closePath();
+        
+        
+        context.beginPath();
+        context.moveTo(300, 210);
+
+        startAngle = 1/6;
+        endAngle = 2*Math.PI - 1/6*Math.PI;
+        context.arc(300, 210, 50, startAngle, endAngle)
+        context.lineTo(300, 210);
+
+        context.fillStyle = 'yellow'
+        context.fill();
+
+        context.stroke();
+        context.closePath();
+    </script>
+</body>
+</html>
