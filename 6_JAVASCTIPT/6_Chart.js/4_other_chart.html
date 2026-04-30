@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        #total-box {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .chart-box {
+            width: 300px;
+            height: 300px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="total-box">
+        <div class="chart-box">
+            <h2>도넛 차트</h2>
+            <canvas id="myChart1"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h2>파이 차트</h2>
+            <canvas id="myChart2"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h2>버블 차트</h2>
+            <canvas id="myChart3"></canvas>
+        </div>
+
+        <div class="chart-box">
+            <h2>믹스 차트</h2>
+            <canvas id="myChart4"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const ctx1 = document.getElementById('myChart1')
+        const Utils = {
+            months: function({ count }) {
+                const months = [
+                    '1월', '2월', '3월',
+                    '4월', '5월', '6월',
+                    '7월', '8월', '9월',
+                    '10월', '11월', '12월'
+                ];
+
+                return months.slice(0, count);
+            }
+        };
+        const data1 = {
+            labels: [
+                'Red',
+                'Blue',
+                'Yellow'
+            ],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [300, 50, 100],
+                backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+                ],
+            hoverOffset: 4
+            }]
+        };
+
+        const config1 = {
+            type: 'doughnut',
+            data: data1,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+        const chart1 = new Chart(ctx1, config1)
+        
+        const ctx2 = document.getElementById('myChart2')
+        const data2 = {
+            labels: [
+                'Red',
+                'Blue',
+                'Yellow'
+            ],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [300, 50, 100],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)'
+                ],
+                hoverOffset: 4
+            }]
+        };
+
+        const config2 = {
+            type: 'pie',
+            data: data2,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+
+        const chart2 = new Chart(ctx2, config2)
+        
+        const ctx3 = document.getElementById('myChart3')
+        const data3 = {
+            datasets: [{
+                label: 'First Dataset',
+                data: [
+                    { x: 20, y: 30, r: 15 },
+                    { x: 40, y: 10, r: 10 },
+                    { x: 15, y: 50, r: 20 },
+                    { x: 60, y: 25, r: 12 },
+                    { x: 80, y: 70, r: 25 },
+                    { x: 35, y: 45, r: 18 },
+                    { x: 55, y: 90, r: 8 },
+                    { x: 10, y: 15, r: 14 },
+                    { x: 95, y: 40, r: 22 },
+                    { x: 70, y: 60, r: 16 }
+                ],
+                backgroundColor: 'rgb(255, 99, 132)'
+            }]
+        };
+
+        const config3 = {
+            type: 'bubble',
+            data: data3,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+
+        const chart3 = new Chart(ctx3, config3)
+        
+        const ctx4 = document.getElementById('myChart4')
+        const data4 = {
+            labels: [
+                'January',
+                'February',
+                'March',
+                'April'
+            ],
+            datasets: [{
+                type: 'bar',
+                label: 'Bar Dataset',
+                data: [10, 20, 30, 40],
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)'
+            }, {
+                type: 'line',
+                label: 'Line Dataset',
+                data: [50, 12, 29, 17],
+                fill: false,
+                borderColor: 'rgb(54, 162, 235)'
+            }]
+        };
+
+        const config4 = {
+            type: 'scatter',
+            data: data4,
+            options: {
+                scales: {
+                y: {
+                    beginAtZero: true
+                    }
+                },
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        };
+
+        const chart4 = new Chart(ctx4, config4)
+
+    
+    </script>
+
+</body>
+</html>
