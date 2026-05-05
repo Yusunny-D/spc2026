@@ -11,6 +11,9 @@
         li {
             padding: 3px;
         }
+        .delete {
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -19,54 +22,66 @@
     <button id="add-todo">추가</button>
     <ul id="todo-list"><!-- 할 일들이 표시될 곳--></ul>
     
+
+
+    
     <script>
+        // TODO:
         // 1. 추가 구현
         // 1-1. 버튼이 클릭되면 추가
         // 1-2. 거기 값을 읽어와서 ul아래 li에 추가하기
+        
+        // 2.완료 구현
+        // 2-1. li 클릭해서 완료 상태 표시(css로 strike)
+        // 2-2. 완료 취소 기능 추가 (2-1과 반대 완료인 줄 알았는데 아님)
+        
+        // 3. 삭제 구현
+        // 3-1. 삭제 버튼을 각 항목에 추가
+        // 3-2. 삭제 버튼으로 해당 요소 삭제
+
+        // 1. 추가
         const addTodo = document.getElementById('add-todo')
 
         addTodo.addEventListener('click', () => {
             const new_todo = document.getElementById('new-todo').value;
             const new_li = document.createElement('li');
-
+            
             if (new_todo.trim() == '') return;
 
             new_li.textContent = new_todo;
 
+            
+            // 3. 삭제
+            // 아이디어 - 버튼 넣고 누르면 삭제하게 만들기
+            const deleteBtn = document.createElement('button')
+            deleteBtn.textContent = '삭제'
+            deleteBtn.classList.add('delete')
+            new_li.appendChild(deleteBtn)
+            
+            deleteBtn.addEventListener('click', (event) => {
+                event.stopPropagation(); // done이랑 버블링 막기 위해서
+                new_li.remove();
+            })
+            
             const todoList = document.getElementById('todo-list');
-            todoList.appendChild(new_li);
-
-            const cancelBtn = document.createElement('button')
-            cancelBtn.textContent = '삭제'
-            cancelBtn.classList.add('cancel')
-
-            new_li.appendChild(cancelBtn)
+            todoList.appendChild(new_li); // 화면에 il가 등장
 
             document.getElementById('new-todo').value='';
-        
-        // 2.완료 구현
-        // 2-1. li 클릭해서 완료 상태 표시(css로 strike)
-        // 2-2. 완료 취소 기능 추가 (2-1과 반대 완료인 줄 알았는데 아님)
-
+            
+        // 2. 완료
         // 아이디어 - 스타일을 추가-삭제를 한다...
-            new_li.addEventListener('click', () => {
+        new_li.addEventListener('click', () => {
                 new_li.classList.toggle('done')
             });
         });
-
+        
         // 기능 개선: 엔트를 통한 버튼 추가 클릭 효과
         document.getElementById('new-todo').addEventListener('keydown', (key) => {
             if (key.key === 'Enter') {
                 addTodo.click();
             };
         });
-
-       
-        // 3. 삭제 구현
-        // 3-1. 삭제 버튼을 각 항목에 추가
-        // 3-2. 삭제 버튼으로 해당 요소 삭제
-
-
+        
         // 4. 디자인(추가로 할 수 있으면)
     </script>
 </body>
