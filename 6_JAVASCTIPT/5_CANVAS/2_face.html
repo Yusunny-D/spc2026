@@ -30,8 +30,8 @@
         context.beginPath();
         context.moveTo(300, 100);
 
-        let startAngle = 0.4;
-        let endAngle = 2*Math.PI - 0.4;
+        let startAngle = 1/4*Math.PI;
+        let endAngle = 2*Math.PI - 1/4*Math.PI;
         context.arc(300, 100, 50, startAngle, endAngle)
         context.lineTo(300, 100);
 
@@ -44,7 +44,7 @@
         context.beginPath();
         context.moveTo(300, 210);
 
-        startAngle = 1/6;
+        startAngle = 1/6*Math.PI;
         endAngle = 2*Math.PI - 1/6*Math.PI;
         context.arc(300, 210, 50, startAngle, endAngle)
         context.lineTo(300, 210);
