@@ -32,10 +32,10 @@ with sync_playwright() as p:
     i = 1
 
     for news in links:
-        print(f'{i}. {news['title']}\n{news['urls']}')
+        print(f"{i}. {news['title']}\n{news['url']}")
         page.goto(news['url'])
-        content = page.locator('article#dic_area').inner_text().strip()
+        content = page.locator('#dic_area').inner_text().strip()
         print(content[:100])
-        print('본문: ', content)
+        print('본문: ', content, '\n')
         i+=1
 
