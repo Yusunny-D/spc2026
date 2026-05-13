@@ -7,29 +7,68 @@
 </head>
 <body>
     <h1>User 검색</h1>
-    <form onsubmit="event.preventDefault()" location.href='/user/'+>
+    <!--
+    onsubmit:
+    form이 submit 될 때 자바스크립트 실행
 
+    event.preventDefault():
+    form의 기본 동작(새로고침 + 자동 제출) 막기
+
+    location.href = '':
+    해당 주소로 페이지 이동
+
+    '/user/' + document.getElementById('id').value
+    입력창(id)의 value 값을 가져와
+    /user/값 형태의 주소 생성
+
+    결론:
+    기본 form 제출은 막고,
+    /user/입력값 주소로 이동한다.
+    예: /user/1
+    -->
+    <form onsubmit="event.preventDefault(); location.href='/user/'+ document.getElementById('id').value">
+        <label>사용자ID: <input type="number" id="id"></label>
+        <button type="submit">검색</button>
     </form>
 
-    {% if user_id %}
+    {# 
+        Jinja 문법
+        주석: { # # }
+        동작/로직: { % % }
+        출력: { { } } 
+    #}
+
+    {% if id %}
+    <!-- userid가 None이 아니면 -->
         <!-- 특정 사용자 -->
-         {% set u = users.get(user_id) %}
-         {% if u %}
+        {% set u = users.get(id) %}
+        <!-- users 딕셔너리에서 user_id 키에 해당하는 값을 가져와
+            u 변수에 저장 -->
+        {% if u %}
+        <!-- u가 None이 아니면 -->
          <ul>
-             {% for u in users.values() %}
-             <li>ID: {{ u.id }}, 이름: {{ u.name }}, 이메일: {{ u.email }}</li>
-         </ul>
+            <li>ID: {{ u.id }}, 이름: {{ u.name }}, 이메일: {{ u.email }}</li>
+            <!-- li이 태그에 위에 대로 출력 -->
+        </ul>
         {% else %}
+        <!-- u가 None이면 -->
         <ul>
             <li>사용자를 찾을 수 없습니다.</li>
         </ul>
         {% endif %}
+        <!-- if로직 끝 -->
 
     {% else %}
+    <!-- userid가 None이면 -->
         <!-- 전체 사용자 -->
         <ul>
             {% for u in users.values() %}
+            <!-- users의 value들을 하나씩 꺼내서
+                매 반복마다 u에 저장 -->
             <li>ID: {{ u.id }}, 이름: {{ u.name }}, 이메일: {{ u.email }}</li>
+            <!-- 위에 대로 (반복)출력 -->
+            {% endfor %}
+            <!-- for로직 끝 -->
         </ul>
     {% endif %}
 </body>
