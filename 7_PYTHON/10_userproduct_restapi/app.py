@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request
+from flask import Flask, send_from_directory, request, jsonify
 
 app = Flask(__name__)
 app.json.ensure_ascii = False
@@ -8,8 +8,6 @@ app.json.ensure_ascii = False
 #    /product는 모든 상품, /product?id=101 로 상품 검색 ?name 으로도 상품 검색
 
 # dict 에 dict 는 인덱싱을 통한 빠른 조회 가능 (굳이 for u in users 이런거 안해도 됨)
-
-
 users = {
     1: {'id': 1, 'name': '홍길동', 'email': 'hong@example.com'},
     2: {'id': 2, 'name': '김철수', 'email': 'kim@example.com'},
@@ -26,13 +24,13 @@ products = {
     105: {'id': 105, 'name': 'Headphones', 'price': 80}
 }
 
-#==========================================================
+# ==========================================================
 # 정적 라우팅
-#==========================================================
+# ==========================================================
 
-@app.route('/user')
-def user():
-    return send_from_directory('static', "user.html")
+@app.route('/')
+def home():
+    return send_from_directory('static', "index.html")
 
 
 @app.route('/user')
@@ -45,12 +43,21 @@ def product():
     return send_from_directory('static', "product.html")
     
 
-#==========================================================
+# ==========================================================
 # API용 라우팅
-#==========================================================
+# ==========================================================
 
-@app.route('/api')
+@app.route('/api/user/<id>')
+def search_user(id):
+    # 사용자를 검색해서
+    users = None
+    return jsonify({'result': users})
 
+@app.route('/api/product')
+def search_product(id):
+    # Product를 검색해서
+    product = None
+    return jsonify({'result': product})
 
 
 if __name__ == '__main__':
