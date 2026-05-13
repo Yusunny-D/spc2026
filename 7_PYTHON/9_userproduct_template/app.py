@@ -2,6 +2,7 @@ from flask import Flask, render_template, send_from_directory, request
 
 app = Flask(__name__)
 app.json.ensure_ascii = False
+# SSR (Server Side Rendering)
 # 1. /user 라는 경로를 만들고 URL파라미터를 기반으로 사용자를 조회할수 있게 한다.
 #    /user는 모든 사용자 /user/1 홍길동 /user/2 김철수 등
 # 2. /product 로 쿼리 파라미터를 기반으로 상품을 조회할수 있다
@@ -26,40 +27,36 @@ products = {
     105: {'id': 105, 'name': 'Headphones', 'price': 80}
 }
 
+@app.route('/')
+def home():
+    return render_template('index.html')
+
+
+# URL경로 방식
+# path parameter
+@app.route('/user')
 @app.route('/user/<int:id>')
 def user(id=None):
     return render_template("user.html", id=id, users=users)
-# def user(id):
-#     if id:
-#         for u in users:
-#             if int(id) == u:
-#                 user = users[u]
-                
-#         return user
 
+
+# 쿼리스트링 방식
+# query parameter
 @app.route('/product')
 def product():
     id = request.args.get('id', type=int)
     name = request.args.get('name', type=str)
 
-    found = list(products.values)
-
+    found = list(products.values()) # products 안에 딕트가 value 들어가 있으니까 
+                                    # values()로 접근하고 list로 만듦
     if id:
         found = [p for p in found if p['id'] == id]
     if name:
         found = [p for p in found if p['name'].lower() == name.lower()]
-                
-#         return product
-    
-    # if name:
-    #     for p in result:
 
-    
-    
-
-
-
-
+    return render_template("product.html", results=found)
+                    # 파이썬의 results 변수를 템플릿에서도 
+                    # results라는 이름으로 사용 가능하게 전달
 
 
 if __name__ == '__main__':
