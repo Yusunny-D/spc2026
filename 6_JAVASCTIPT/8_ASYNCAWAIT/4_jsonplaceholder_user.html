@@ -12,27 +12,29 @@
     <div id="result"><!-- 응답 대이터를 표시할 곳 --></div>
     <script>
         document.getElementById('loadBtn').addEventListener('click', async () => {
-            try {
-            // console.log('버튼 클릭됨')
             const userid = document.getElementById('uid').value;
-            const response = await fetch(`http://jsonplaceholder.typicode.com/users/${userid}`)
-            const data = await response.json()
+            console.log('사용자ID: ', userid);
 
-            console.log(data);
+            try {
+                const response = await fetch(`http://jsonplaceholder.typicode.com/users/${userid}`)
+                const data = await response.json()
 
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `
-            <ul>
-                <li>사용자ID: ${data.id}</li>
-                <li>이름: ${data.name}</li>
-                <li>전화번호: ${data.phone}</li>
-                <li>웹사이트: ${data.website}</li>
-            </ul>
-            `;
-        }
-        } catch {
+                console.log(data);
+                const resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = `
+                <ul>
+                    <li>사용자ID: ${data.id}</li>
+                    <ul>
+                        <li>이름: ${data.name}</li>
+                        <li>전화번호: ${data.phone}</li>
+                        <li>웹사이트: ${data.website}</li>
+                    </ul>
+                </ul>
+                `;
+        } catch (error) {
             console.log('위에 fetch를 자리 처리하고 가공하는 과정 어딘가에서 오류가 났습니다.', error)
-        })
+        }
+    });
 
 
     </script>
