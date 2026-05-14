@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 4.1 breed 목록 불러오기	
+    4.2 해당 품종 사진 불러오기	
+    4.3 breed 서브 목록도 불러오기	
+    4.4 해당 서브품종까지 맞춰서 사진 불러오기	 -->
+    <h1>Random Dog Breed Image</h1>
+    <div style="display: flex;">
+        <span>Choose a breed: </span>
+        <select id="breeds">
+            <!-- <option>breed 목록 표시</option> -->
+        </select>
+        
+        <span>Choose a sub-breed: </span>
+        <select id="subBreeds">
+            <!-- <option>breed 목록 표시</option> -->
+        </select>
+        
+        <button id="photo">Fetch Image</button>
+    </div>
+    <div id="result"><!-- 응답 데이터를 표시할 곳 --></div>
+<script>
+    window.addEventListener('load', async() => {
+        const res = await fetch('https://dog.ceo/api/breeds/list/all');
+        const data = await res.json();
+        const breeds = Object.keys(data.message)
+        // console.log(breeds)
+        
+        breeds.forEach((breed) => {
+            const breedOpt = document.getElementById('breeds');
+            breedOpt.innerHTML += `
+                   <option>${breed}</option>
+            `
+        });
+    });
+    
+    document.getElementById('breeds').addEventListener('change', async () => {
+        const selectBreed = document.getElementById('breeds').value;
+        console.log(selectBreed)
+        const res = await fetch('https://dog.ceo/api/breeds/list/all');
+        const data = await res.json();
+        const subBreeds = data.message[selectBreed]
+        console.log(subBreeds)
+        const subBreedOpt = document.getElementById('subBreeds');
+
+        subBreedOpt.innerHTML =''
+        
+        if (subBreeds) {
+        subBreeds.forEach((subBreed) => {
+            subBreedOpt.innerHTML += `
+                   <option>${subBreed}</option>
+            `
+        })};
+
+    });
+
+
+    document.getElementById('photo').addEventListener('click', async() => {
+        const breed = document.getElementById('breeds').value;
+        const sub = document.getElementById('subBreeds').value;
+        
+        if (breed && sub) {
+        const res = await fetch(`https://dog.ceo/api/breed/${breed}/${sub}/images/random`)
+        const data = await res.json();
+        const result = document.getElementById('result');
+        result.innerHTML = `
+        <img src=${data.message} width=400px>
+        `;
+        console.log(data.status);
+    } else {
+        const res = await fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+        const data = await res.json();
+        const result = document.getElementById('result');
+        result.innerHTML = `
+        <img src=${data.message} width=400px>
+        `;
+        console.log(data.status);
+        
+        }
+    }) 
+
+</script>
+</body>
+</html>
