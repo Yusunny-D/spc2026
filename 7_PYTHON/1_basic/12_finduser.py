@@ -69,16 +69,21 @@ def find_users2_better(name=None, age=None, location=None):
     found_user = []
     for user in users:
         # true or 비교문
-        if name is None or user['']
+        if (name is None or user['name'] == name) and (age is None or user['age'] == age) and (location is None or user["location"] == location):
+            found_user.append(user)
+    return found_user
+
+
+print('\n', '-'*30)
 
 
 def find_user2_best(condition):
     found = []
     for user in users:
         if user.get('name') == condition.get('name', '') and \
-        user.get('age') == condition.get('age', 0) and \
-        user.get('location') == condition.get('location', '')
-        found.append(user)
+            user.get('age') == condition.get('age', 0) and \
+            user.get('location') == condition.get('location', ''):
+            found.append(user)
 
     return found
 
