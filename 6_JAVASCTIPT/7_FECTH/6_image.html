@@ -13,24 +13,37 @@
 <script>
         // GET으로 정보 요청(달라는 요청)
         document.getElementById('photo').addEventListener('click', () => {
-            fetch(`https://dog.ceo/api/breeds/image/random`)
+            fetch('https://dog.ceo/api/breeds/image/random2')
             .then((response) => response.json())
             .then((data) => {
-                // if (data.status => {})
-                const resultDiv = document.getElementById('result');
-                resultDiv.innerHTML = `
-                <img src=${data['message']} width=400px>
-                `;
-                console.log(data.status);
+                if (data.status == "success") {
+                    displayResult(data);
+                } else {
+                    displayError(data);
+                }
             })
             .catch((error) => {
                 console.error('위에 fetch를 자리 처리하고 가공하는 과정 어딘가에서 오류가 났습니다.', error)
-                // displayError(data)
-                
+                displayError(data)
             });
-        // function displayError(data) {
-        //     console.log('화면에 DOM 그리기를 실패했습니다.', )
-        // }
+            
+            function displayError(data) {
+                const result = document.getElementById('result');
+                result.innerHTML = `
+                    <p style="color: red;">이미지를 불러오지 못 했습니다. 참고: ${data.message}</p>
+                `
+            }
+
+            function displayResult(data) {
+                console.log('화면에 DOM 그리기: ', data)
+                const result = document.getElementById('result');
+                result.innerHTML = `
+                <img src=${data.message} width=400px>
+                `;
+                console.log(data.status);
+                
+                
+            }
 
         })
 </script>
