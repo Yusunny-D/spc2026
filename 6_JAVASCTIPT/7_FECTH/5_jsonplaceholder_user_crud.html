@@ -14,7 +14,33 @@
     <button id="modeBtn">데이터 수정</button>
     <div id="result"><!-- 응답 대이터를 표시할 곳 --></div>
     <script>
-        // PUT 정보 요청(수정)
+        // fetch와 then이 왜 나오는가?
+
+        // 파이썬은 한줄씩 차례대로 읽어서 코드를 진행(동기 방식)
+        // 하지만 JS는 다름. 왜냐? 비동기 방식이기 때문이다...
+
+        // JS의 기본: "일단 요청 보내놓고 다음 코드 먼저 실행할게~" -JS
+        // (차례대로 쓰여 있어도 차례대로 실행 안됨)
+
+        // fetch는 서버 응답이 와야 결과를 줄 수 있어서 기다려야함 
+        // "나중에 결과 줄게~" - fetch (fetch는 Promise 객체를 반환함)
+
+        // 그래서.. fetch의 결과를 가져왔을 때
+        // 그 다음을 실행하라 하는 애가 바로! .then(함수)이다..
+
+        // 아래 예제 코드에서 .then()에 익명 함수가 들어가는데 그 안에 인자가 들어있음.. 
+        // 문제는 아무 곳에서도 인자 혹은 변수에 뭘 정의하지 않았는데 코드가 돌아감
+
+        // 그 이유는
+        // fetch().then((인자) => {}) 이렇게 써지면 앞의 fetch의 결과를 바로 함수의 인자로 받게되기 때문
+        // 그렇지만 then(함수) 이 함수 안에서 받은 인자이기에 밖에서는 부를 수 없음
+        // 그래서 연쇄 .then().then()이 생기는 이유임 (이러면 계속 앞의 결과를 인자로 받기 때문)
+
+        // 새로 보이는 매서드
+        // response.json(): fetch 결과물 객체 안의 body의 JSON 문자열을 JS 객체로 파싱(parse)하는 것 (일반 JSON 문자열에서는 못 씀)
+        // JSON.stringify(obj): JS 객체 → JSON 문자열 (이거의 반대는 JSON.parse(text))
+
+        // PUT 정보 요청(수정) (이해를 돕기 위해서 SQL로 따지면 UPDATE WHERE문)
         document.getElementById('modeBtn').addEventListener('click', () =>{
             const userid = document.getElementById('uid').value;
             console.log("수정할 ID: ", userid)
@@ -32,7 +58,7 @@
             body: JSON.stringify(putData)
         })
             .then(resp => resp.json())
-            .then(data => {console.log(data)})
+            .then(data => console.log(data))
         })
 
         // DElETE 정보 요청(삭제)
@@ -43,7 +69,7 @@
             })
         })
 
-        // POST 정보 요청(업데이트)
+        // POST 정보 요청(업데이트) (이해를 돕기 위해서 SQL로 따지면 insert 생성문)
         document.getElementById('saveBtn').addEventListener('click', () =>{
             const postData = {
                 title: 'h',
