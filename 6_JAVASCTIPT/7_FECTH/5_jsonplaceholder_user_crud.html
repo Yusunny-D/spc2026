@@ -36,6 +36,8 @@
         // 그렇지만 then(함수) 이 함수 안에서 받은 인자이기에 밖에서는 부를 수 없음
         // 그래서 연쇄 .then().then()이 생기는 이유임 (이러면 계속 앞의 결과를 인자로 받기 때문)
 
+        // .catch()는 fetch나 then(Promise 체인) 처리 중 오류가 나면 실행된다.
+
         // 새로 보이는 매서드
         // response.json(): fetch 결과물 객체 안의 body의 JSON 문자열을 JS 객체로 파싱(parse)하는 것 (일반 JSON 문자열에서는 못 씀)
         // JSON.stringify(obj): JS 객체 → JSON 문자열 (이거의 반대는 JSON.parse(text))
