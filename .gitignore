@@ -1,5 +1,8 @@
 # 환경설정
 .vscode
 
+# Credentials
+.env
+
 # 업로드 파일
 uploads/

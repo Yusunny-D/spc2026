@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}나의 홈{% endblock %}
+
+{% block content %}
+<h1>여기는 나의 상품 홈페이지</h1>
+<p>여기는 나의 상품들의 홈페이지입니다.</p>
+<ul>
+    <li><a href="{{ url_for('product_detail.product_detail_page') }}">여기는 상품들의 상세정보 페이지입니다.</a></li>
+</ul>
+{% endblock %}
