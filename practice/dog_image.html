@@ -26,10 +26,14 @@
     </div>
     <div id="result"><!-- 응답 데이터를 표시할 곳 --></div>
 <script>
+    let breedData;
+
+    // 품종 불러서 풀다운 메뉴 옵션으로 넣기
     window.addEventListener('load', async() => {
         const res = await fetch('https://dog.ceo/api/breeds/list/all');
         const data = await res.json();
-        const breeds = Object.keys(data.message)
+        breedData = data.message
+        const breeds = Object.keys(breedData)
         // console.log(breeds)
         
         breeds.forEach((breed) => {
@@ -40,12 +44,11 @@
         });
     });
     
-    document.getElementById('breeds').addEventListener('change', async () => {
+    // 서브 품종 풀다운 메뉴에 넣기
+    document.getElementById('breeds').addEventListener('change', () => {
         const selectBreed = document.getElementById('breeds').value;
         console.log(selectBreed)
-        const res = await fetch('https://dog.ceo/api/breeds/list/all');
-        const data = await res.json();
-        const subBreeds = data.message[selectBreed]
+        const subBreeds = breedData[selectBreed]
         console.log(subBreeds)
         const subBreedOpt = document.getElementById('subBreeds');
 
@@ -60,7 +63,7 @@
 
     });
 
-
+    // 버튼 누르면 품종과 서브 품종에 맞는 강아지 사진 랜점으로 가져오기
     document.getElementById('photo').addEventListener('click', async() => {
         const breed = document.getElementById('breeds').value;
         const sub = document.getElementById('subBreeds').value;
