@@ -9,15 +9,21 @@ API_KEY = os.getenv("YOUTUBE_API_KEY")
 
 main_video_url = 'https://www.googleapis.com/youtube/v3/videos'
 
-# video_ids = []
-data = []
+video_ids = []
 
-with open('search_result.csv', 'r', ) as file:
+with open('search_result.csv', 'r', encoding="utf-8") as file:
     reader = csv.DictReader(file)
     for row in reader:
-        data.append({
+        video_ids.append(row['video_id'])
 
-        })
+params = {
+    'part': "snippet, statistics",
+    'id': ','.join(video_ids),
+    'key': API_KEY
+}
+
+response = requests.get(main_video_url, params)
+data = response.json()
 
 
 table = []

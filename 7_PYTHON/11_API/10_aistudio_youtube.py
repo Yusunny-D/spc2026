@@ -9,14 +9,14 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 videos = []
 
-with open('video.csv', 'r', encoding='utf-8') as file:
+with open('video_state.csv', 'r', encoding='utf-8') as file:
     reader = csv.DictReader(file)
     for row in reader:
         videos.append({
             'title': row['title'],
-            'views': row['view_count'],
-            'likes': row['like_count'],
-            'comments': row['comment_count']
+            'views': row['view count'],
+            'likes': row['like count'],
+            'comments': row['comment count']
         })
 
 prompt = f"""
