@@ -80,7 +80,33 @@ def add(id):
 
 @app.route('/cart')
 def cart():
-    return render_template('cart.html')
+    if 'user' not in session:
+        return f'<a href="{url_for("login")}">로그인</a> 후 이용해 주세요.'
+    
+    cart = session.get('cart', {}) # {'1': 1, '2': 4}
+    cart_items = {}
+    for id, count in cart.items():
+        selected_pro = next((p for p in products if p['id'] == id), None)
+        cart_items[id] ={
+            'name': selected_pro['name'],
+            'price': selected_pro['price'],
+            'count': count
+        } # {'1': {'name': 'apple, 'price': 3000, 'count': 3}, ... }
+    return render_template('cart.html', cart_items = cart_items)
+
+@app.route('/single_delete/<id>')
+def single_delete(id):
+    session['cart'].pop(id)
+    session.modified = True
+
+    print(session['cart'])
+
+    return redirect(url_for('cart'))
+
+@app.route('/delete_all')
+def delete_all():
+    session.pop('cart', None)
+    return redirect(url_for('cart'))
 
 @app.route('/logout')
 def logout():
