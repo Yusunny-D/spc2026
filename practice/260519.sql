@@ -1,15 +1,38 @@
--- 1. non_usa_customers.sql: 미국에 거주하지 않는 고객(전체 이름, 고객 ID 및 국가)을 표시하는 쿼리를 제공합니다.
--- 2. brazil_customers.sql: 브라질 고객만 표시하는 쿼리를 제공합니다.
--- 3. brazil_customers_invoices.sql: 브라질 고객의 송장을 보여주는 쿼리를 제공합니다. 결과 테이블에는 고객의 전체 이름, 송장 ID, 송장 날짜 및 청구 국가가 표시되어야 합니다.
+-- 1. non_usa_customers.sql: 
+-- 미국에 거주하지 않는 고객(전체 이름, 고객 ID 및 국가)을 표시하는 쿼리를 제공합니다.
+select LastName ||" "|| FirstName as FullName, CustomerId, Country from customers where Country != "USA";
+
+-- 2. brazil_customers.sql: 
+-- 브라질 고객만 표시하는 쿼리를 제공합니다.
+SElECT * FROM customers WHERE Country="Brazil";
+
+-- 3. brazil_customers_invoices.sql: 
+-- 브라질 고객의 송장을 보여주는 쿼리를 제공합니다. 결과 테이블에는 고객의 전체 이름, 송장 ID, 송장 날짜 및 청구 국가가 표시되어야 합니다.
 SELECT c.LastName ||" "|| c.FirstName AS FullName, i.invoiceId, i.invoiceDate, i.BillingCountry From customers c 
 	JOIN invoices i 
 	ON c.CustomerId = i.CustomerId
 	WHERE c.Country = "Brazil"
--- 4. sales_agents.sql: 판매 대리인인 직원만 표시하는 쿼리를 제공하십시오.
--- 5. unique_invoice_countries.sql: 송장 테이블에서 청구 국가의 고유(unique)/고유(distinct) 목록을 표시하는 쿼리를 제공합니다.
--- 6. sales_agent_invoices.sql: 각 판매 에이전트와 연결된 송장을 표시하는 쿼리를 제공합니다. 결과 테이블에는 영업 에이전트의 전체 이름이 포함되어야 합니다.
+
+-- 4. sales_agents.sql: 
+-- 판매 대리인인 직원만 표시하는 쿼리를 제공하십시오.
+SELECT * FROM employees WHERE title = 'Sales Support Agent';
+
+-- 5. unique_invoice_countries.sql: 
+-- 송장 테이블에서 청구 국가의 고유(unique)/고유(distinct) 목록을 표시하는 쿼리를 제공합니다.
+SELECT DISTINCT BillingCountry FROM invoices;
+
+-- 6. sales_agent_invoices.sql: 각 판매 에이전트와 연결된 송장을 표시하는 쿼리를 제공합니다. 
+-- 결과 테이블에는 영업 에이전트의 전체 이름이 포함되어야 합니다.
+SELECT e.lastname ||" "|| e.firstname as EmployeeFullName, i.* FROM employees e 
+		JOIN customers c
+		ON c.SupportRepId = e.EmployeeId
+		JOIN invoices i
+		ON c.CustomerId = i.CustomerId;
+
 -- 7. invoice_totals.sql: 모든 송장 및 고객에 대한 송장 합계, 고객 이름, 국가 및 판매 대리점 이름을 표시하는 쿼리를 제공합니다.
+
 -- 8. total_invoices_{year}.sql: 2009년과 2011년에 몇 개의 인보이스가 있었습니까?
+
 -- 9. total_sales_{year}.sql: 각 연도의 총 매출은 얼마입니까?
 -- 10. invoice_37_line_item_count.sql: InvoiceLine 테이블을 보고 Invoice ID 37에 대한 라인 항목 수를 계산하는 쿼리를 제공합니다.
 -- 11. line_items_per_invoice.sql: InvoiceLine 테이블을 보고 각 Invoice에 대한 라인 항목 수를 계산하는 쿼리를 제공합니다. 힌트: 그룹화 기준
@@ -30,20 +53,3 @@ SELECT c.LastName ||" "|| c.FirstName AS FullName, i.invoiceId, i.invoiceDate, i
 -- 25. top_5_tracks.sql: 가장 많이 구매한 상위 5곡을 보여주는 쿼리를 제공합니다.
 -- 26. top_3_artists.sql: 가장 많이 팔린 3명의 아티스트를 보여주는 쿼리를 제공합니다.
 -- 27. top_media_type.sql: 가장 많이 구매한 Media Type을 보여주는 쿼리를 제공한다.
-
-
--- 1.
-
-
--- 2.
-
--- 3.
-SELECT c.LastName ||" "|| c.FirstName AS FullName, i.invoiceId, i.invoiceDate, i.BillingCountry From customers c 
-	JOIN invoices i 
-	ON c.CustomerId = i.CustomerId
-	WHERE c.Country = "Brazil"
-
--- 4.
-SELECT * FROM employees WHERE title = 'Sales Support Agent';
-
--- 5.
