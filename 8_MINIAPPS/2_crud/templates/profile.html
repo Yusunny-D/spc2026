@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Profile Page{% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for msg in messages %}
+            <p>{{ msg }}</p>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<h2>프로필</h2>
+<div>
+    <p>Username: {{ user_data.username }}</p>
+    <p>Email: {{ user_data.email }}</p>
+</div>
+<form method="post">
+    <label for="username">Username: </label>
+    <input type="text" name="username" id="username" value="{{ user_data.username }}" readonly><br>
+    <label for="password">Password: </label>
+    <input type="password" name="password" id="password"><br>
+    <label for="email">Email: </label>
+    <input type="text" name="email" id="email" value="{{user_data.email }}"><br>
+    <button type="submit">정보수정</button>
+</form>
+{% endblock %}
