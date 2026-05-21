@@ -1,0 +1,702 @@
+/* ==========================================================
+   BOARD VIBE - MIDNIGHT FOREST AURORA & DEEP GLASS SYSTEM
+   ========================================================== */
+
+/* 1. Design System Tokens & Brand Colors */
+:root {
+    --bg-base: #070b11; /* Deepest Void Space Charcoal */
+    --card-bg: rgba(12, 19, 29, 0.7); /* Deep Coal Semi-Transparent Glass */
+    --card-bg-hover: rgba(18, 27, 41, 0.85);
+    --border-color: rgba(255, 255, 255, 0.06);
+    --border-focus: rgba(16, 185, 129, 0.4);
+    
+    /* Premium Polar Aurora Colors & Gradients */
+    --brand-primary: #10b981; /* Emerald Aurora Mint */
+    --brand-secondary: #06b6d4; /* Deep Ocean Cyan */
+    --brand-teal: #14b8a6; /* Neon Forest Teal */
+    
+    --vibe-gradient: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #3b82f6 100%);
+    --aurora-gradient-green: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, rgba(0,0,0,0) 70%);
+    --aurora-gradient-cyan: radial-gradient(circle, rgba(6, 182, 212, 0.10) 0%, rgba(0,0,0,0) 70%);
+    
+    /* Text Typography */
+    --text-primary: #f8fafc; /* Crisp Diamond White */
+    --text-secondary: #94a3b8; /* Cool Polar Slate */
+    --text-muted: #475569; /* Twilight Blue Grey */
+    
+    /* Professional Shadow Layering (Deep Dark Glass depth) */
+    --shadow-soft: 
+        0 4px 25px -2px rgba(0, 0, 0, 0.5), 
+        0 12px 30px -4px rgba(16, 185, 129, 0.02);
+    --shadow-deep: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.7), 
+        0 15px 30px -10px rgba(6, 182, 212, 0.1);
+    --shadow-inset: 
+        inset 0 1px 2px 0 rgba(255, 255, 255, 0.05),
+        inset 0 -1px 2px 0 rgba(0, 0, 0, 0.5);
+        
+    /* Micro-Interactions */
+    --transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-ease: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Global Reset & Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: 'Inter', 'Outfit', sans-serif;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+    line-height: 1.65;
+}
+
+/* 2. Fluid Polar Aurora Liquid Background */
+.fluid-bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    overflow: hidden;
+    background: #06090e;
+}
+
+.aura {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(95px);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    animation: fluid-flow 22s infinite alternate ease-in-out;
+}
+
+.aura-1 {
+    width: 750px;
+    height: 750px;
+    background: var(--aurora-gradient-green);
+    top: -250px;
+    left: -150px;
+}
+
+.aura-2 {
+    width: 850px;
+    height: 850px;
+    background: var(--aurora-gradient-cyan);
+    bottom: -300px;
+    right: -150px;
+    animation-delay: -5s;
+}
+
+.aura-3 {
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(20, 184, 166, 0.08) 0%, rgba(0, 0, 0, 0) 70%);
+    top: 30%;
+    left: 25%;
+    animation-delay: -11s;
+}
+
+@keyframes fluid-flow {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    33% {
+        transform: translate(80px, -70px) scale(1.15) rotate(120deg);
+    }
+    66% {
+        transform: translate(-60px, 90px) scale(0.9) rotate(240deg);
+    }
+    100% {
+        transform: translate(0, 0) scale(1) rotate(360deg);
+    }
+}
+
+/* 3. Container Layout */
+.app-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Modern Minimalist Header */
+.app-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    animation: slideDownFade 1s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.logo-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 0.6rem;
+    display: inline-block;
+    color: var(--text-primary);
+}
+
+.logo-text span {
+    background: var(--vibe-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
+}
+
+.subtitle-text {
+    color: var(--text-secondary);
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: -0.3px;
+    opacity: 0.85;
+}
+
+/* 4. Elegant Soft Glass Cards */
+.glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border: 1px solid var(--border-color);
+    border-radius: 28px;
+    box-shadow: var(--shadow-soft), var(--shadow-inset);
+    padding: 2.5rem;
+    transition: var(--transition-bounce);
+}
+
+/* 5. Deep Aurora Form Section */
+.form-section {
+    margin-bottom: 4.5rem;
+    animation: slideUpFade 1s cubic-bezier(0.25, 1, 0.5, 1) 0.1s both;
+}
+
+.form-container {
+    background: rgba(12, 19, 29, 0.65);
+    position: relative;
+    overflow: hidden;
+}
+
+/* High contrast neon ambient border for Deep Forms */
+.form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--vibe-gradient);
+}
+
+.card-header-vibe {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 2rem;
+}
+
+.vibe-dot {
+    width: 12px;
+    height: 12px;
+    background: var(--brand-primary);
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    box-shadow: 0 0 10px var(--brand-primary);
+}
+
+.vibe-dot::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: var(--brand-primary);
+    border-radius: 50%;
+    animation: ripple 2s infinite;
+}
+
+@keyframes ripple {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+.card-header-vibe h2 {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.5px;
+}
+
+/* Form inputs & controls */
+.input-group {
+    margin-bottom: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.input-group label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    padding-left: 0.2rem;
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 1.25rem;
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    transition: var(--transition-ease);
+    pointer-events: none;
+}
+
+.textarea-icon {
+    top: 1.25rem;
+}
+
+.input-group input, 
+.input-group textarea {
+    width: 100%;
+    padding: 1.15rem 1.25rem 1.15rem 3.4rem;
+    background: rgba(8, 12, 19, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    box-shadow: inset 0 2px 4px 0 rgba(0,0,0,0.4);
+    transition: var(--transition-ease);
+}
+
+.input-group textarea {
+    resize: none;
+}
+
+.input-group input::placeholder, 
+.input-group textarea::placeholder {
+    color: var(--text-muted);
+    opacity: 0.8;
+}
+
+/* Hover & Focus state */
+.input-group input:hover, 
+.input-group textarea:hover {
+    border-color: rgba(16, 185, 129, 0.25);
+    background: rgba(8, 12, 19, 0.8);
+}
+
+.input-group input:focus, 
+.input-group textarea:focus {
+    background: rgba(8, 12, 19, 0.95);
+    border-color: var(--brand-primary);
+    box-shadow: 
+        0 0 0 4px rgba(16, 185, 129, 0.15),
+        0 4px 15px rgba(16, 185, 129, 0.1);
+}
+
+.input-group input:focus + .input-icon, 
+.input-group textarea:focus + .input-icon {
+    color: var(--brand-primary);
+}
+
+/* Polar Mint Gradient Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 1.15rem;
+    background: var(--vibe-gradient);
+    border: none;
+    border-radius: 16px;
+    color: white;
+    font-size: 1.05rem;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
+    box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.25);
+    transition: var(--transition-bounce);
+}
+
+.submit-btn .btn-icon {
+    transition: var(--transition-bounce);
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px -5px rgba(16, 185, 129, 0.45);
+    filter: brightness(1.08);
+}
+
+.submit-btn:hover .btn-icon {
+    transform: translate(6px, -2px) scale(1.1);
+}
+
+.submit-btn:active {
+    transform: translateY(1px);
+}
+
+/* 6. Feed Section Layout */
+.board-section {
+    animation: slideUpFade 1s cubic-bezier(0.25, 1, 0.5, 1) 0.2s both;
+}
+
+.section-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 2.2rem;
+}
+
+.title-icon {
+    font-size: 1.5rem;
+    color: var(--brand-primary);
+}
+
+.section-title-wrapper h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.post-count-badge {
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 0.25rem 0.9rem;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.15);
+    border-radius: 30px;
+    margin-left: 0.6rem;
+    color: var(--brand-primary);
+}
+
+/* 7. Bento Grid Cards Layout */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 1.8rem;
+}
+
+/* Individual Card (Midnight Space Glass) */
+.card-item {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: rgba(12, 19, 29, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    box-shadow: var(--shadow-soft), var(--shadow-inset);
+}
+
+/* Creative organic Aurora borders */
+.card-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--vibe-gradient);
+    opacity: 0.85;
+    transition: var(--transition-ease);
+}
+
+.card-item:hover {
+    background: rgba(18, 28, 43, 0.8);
+    transform: translateY(-10px) scale(1.025) rotate(0.6deg);
+    border-color: rgba(16, 185, 129, 0.2);
+    box-shadow: var(--shadow-deep);
+}
+
+.card-item:hover::after {
+    width: 8px;
+    opacity: 1;
+}
+
+/* Clean Circle Delete Badge */
+.delete-btn {
+    position: absolute;
+    top: 1.3rem;
+    right: 1.3rem;
+    background: rgba(8, 12, 19, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-secondary);
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: var(--transition-bounce);
+    opacity: 0;
+    transform: scale(0.6);
+}
+
+.card-item:hover .delete-btn {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.delete-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    transform: scale(1.15) rotate(15deg);
+    box-shadow: 0 6px 15px rgba(239, 68, 68, 0.3);
+}
+
+/* Card Content Structure */
+.card-body {
+    flex-grow: 1;
+    margin-bottom: 1.6rem;
+    padding-left: 0.5rem;
+}
+
+.card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 750;
+    color: var(--text-primary);
+    margin-bottom: 0.85rem;
+    letter-spacing: -0.3px;
+    word-break: break-all;
+    padding-right: 1.8rem;
+}
+
+.card-message {
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Card Footer Structure */
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    padding-top: 1.2rem;
+    margin-top: auto;
+    padding-left: 0.5rem;
+}
+
+.post-time {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    opacity: 0.75;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+.card-vibe-tag {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--brand-primary);
+    background: rgba(16, 185, 129, 0.07);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+/* 8. Skeleton Shimmering Cards */
+.skeleton-card {
+    background: rgba(12, 19, 29, 0.4);
+    border: 1px solid var(--border-color);
+    border-radius: 28px;
+    padding: 2.5rem;
+    height: 190px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.02), transparent);
+    animation: skeleton-wave 1.6s infinite linear;
+}
+
+@keyframes skeleton-wave {
+    0% { left: -150%; }
+    50% { left: 50%; }
+    100% { left: 150%; }
+}
+
+.skeleton-line {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 6px;
+}
+
+.skeleton-line.title {
+    width: 55%;
+    height: 22px;
+}
+
+.skeleton-line.message-1 {
+    width: 100%;
+    height: 14px;
+    margin-top: 14px;
+}
+
+.skeleton-line.message-2 {
+    width: 80%;
+    height: 14px;
+    margin-top: 8px;
+}
+
+.skeleton-footer {
+    width: 35%;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 6px;
+    margin-top: auto;
+}
+
+/* 9. Polar Mint Gradient Feedback Toast */
+.toast {
+    position: fixed;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    z-index: 1000;
+    padding: 1.1rem 1.6rem;
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    color: white;
+    font-weight: 600;
+    font-size: 0.98rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    transform: translateY(60px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.toast.success {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.toast.error {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.9) 0%, rgba(220, 38, 38, 0.9) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+/* 10. Transitions & Enter/Exit dynamics */
+@keyframes slideDownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card Enter/Exit */
+.card-enter {
+    animation: bounce-in 0.6s cubic-bezier(0.34, 1.6, 0.64, 1) both;
+}
+
+.card-exit {
+    animation: scale-out 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+}
+
+@keyframes bounce-in {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.8) rotate(-2deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0);
+    }
+}
+
+@keyframes scale-out {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.85);
+    }
+}
+
+/* Utilities */
+.hidden {
+    display: none !important;
+}
+
+.no-posts-container {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--text-secondary);
+}
+
+.no-posts-container i {
+    font-size: 3.5rem;
+    margin-bottom: 1.2rem;
+    opacity: 0.6;
+    color: var(--brand-primary);
+}
+
+.no-posts-container p {
+    font-weight: 500;
+}

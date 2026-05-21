@@ -1,0 +1,16 @@
+{
+  "name": "vibe-music-sns",
+  "version": "1.0.0",
+  "description": "Vibe - Premium Music SNS and YouTube Search Site",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server --port=5500",
+    "start": "live-server"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  },
+  "author": "",
+  "license": "ISC"
+}

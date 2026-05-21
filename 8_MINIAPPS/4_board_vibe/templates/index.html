@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vibe.board - 오로라 감성 피드</title>
+    <meta name="description" content="신비로운 북극광 오로라 테마의 프리미엄 다크 카드뷰 게시판. 당신의 특별한 영감을 깊은 우주 피드에 남겨보세요.">
+    
+    <!-- Google Fonts: Outfit & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;650;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom Midnight Aurora Style -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Floating Fluid Polar Aurora Background -->
+    <div class="fluid-bg-container">
+        <div class="aura aura-1"></div>
+        <div class="aura aura-2"></div>
+        <div class="aura aura-3"></div>
+    </div>
+
+    <div class="app-container">
+        <!-- Brand Header Section -->
+        <header class="app-header">
+            <h1 class="logo-text">vibe.<span>board</span></h1>
+            <p class="subtitle-text">깊은 우주 속에서 영롱하게 반짝이는 북극광 오로라처럼, 당신의 빛나는 아이디어를 피드에 기록해 보세요.</p>
+        </header>
+
+        <!-- Glassmorphic Input Form Section -->
+        <section class="form-section">
+            <div class="glass-card form-container">
+                <div class="card-header-vibe">
+                    <span class="vibe-dot"></span>
+                    <h2>새로운 영감 조각 기록</h2>
+                </div>
+                
+                <form id="boardForm" novalidate>
+                    <!-- Input Title -->
+                    <div class="input-group">
+                        <label for="title" id="label-title">영감의 제목</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-compass input-icon"></i>
+                            <input 
+                                type="text" 
+                                id="title" 
+                                placeholder="영감의 나침반이 가리키는 제목을 적어보세요..." 
+                                required 
+                                maxlength="50"
+                                aria-labelledby="label-title"
+                            >
+                        </div>
+                    </div>
+                    
+                    <!-- Input Message -->
+                    <div class="input-group">
+                        <label for="message" id="label-message">영감의 메세지</label>
+                        <div class="input-wrapper">
+                            <i class="fa-regular fa-paper-plane input-icon textarea-icon"></i>
+                            <textarea 
+                                id="message" 
+                                placeholder="어두운 밤하늘을 수놓을 흥미진진한 이야기를 들려주세요..." 
+                                required 
+                                rows="4"
+                                aria-labelledby="label-message"
+                            ></textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit button -->
+                    <button type="submit" class="submit-btn" id="btn-submit-vibe">
+                        <span>오로라 피드에 전송</span>
+                        <i class="fa-solid fa-arrow-right btn-icon"></i>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Native Status Toast for AJAX action feedback -->
+        <div id="toastNotification" class="toast hidden"></div>
+
+        <!-- Cards View Grid Section -->
+        <section class="board-section">
+            <div class="section-title-wrapper">
+                <i class="fa-solid fa-meteor title-icon"></i>
+                <h2>오로라 타임라인 <span class="post-count-badge" id="postCount">0</span></h2>
+            </div>
+            
+            <!-- Bento Cards Container Grid -->
+            <div class="cards-grid" id="cardsGrid">
+                <!-- Skeleton Shimmering Cards -->
+                <div class="skeleton-card">
+                    <div class="skeleton-line title"></div>
+                    <div class="skeleton-line message-1"></div>
+                    <div class="skeleton-line message-2"></div>
+                    <div class="skeleton-footer"></div>
+                </div>
+                <div class="skeleton-card">
+                    <div class="skeleton-line title"></div>
+                    <div class="skeleton-line message-1"></div>
+                    <div class="skeleton-line message-2"></div>
+                    <div class="skeleton-footer"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Main JavaScript Logic -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
