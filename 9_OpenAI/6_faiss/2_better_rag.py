@@ -42,7 +42,7 @@ def rag_query(user_query):
 
     print("\n===\n유사도점수")
     print(f'검색된 문서: {retrieved_doc}')
-    print(f'유사도 점수: {true_distance:.3f}')
+    print(f'유사도 점수: {similarity_score:.3f}')
 
     if similarity_score < 0.65:
         return '해당 내용의 적합한 답변을 찾을 수 없습니다.'
