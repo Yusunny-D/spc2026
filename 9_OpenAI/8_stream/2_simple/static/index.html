@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>스트림 채팅</h1>
+    <div class="container">
+        <input type="text" name="" id="input" placeholder="메세지를 입력하세요.">
+        <button id="send">전송</button>
+        <div id="chat"></div>
+    </div>
+    <script>
+        const input = document.getElementById('input')
+        const send = document.getElementById('send')
+        const chat = document.getElementById('chat')
+
+        send.addEventListener('click', async () => {
+            const message = input.value.trim()
+
+            const response = await fetch('/stream', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({message})
+            });
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let fulltext = '';
+
+            while (true) {
+                const { done, value } = await reader.read(); 
+                if (done) break;
+
+                const chunk = decoder.decode(value, { stream: true });
+                // fulltext += chunk.replace(/\n/g, '<br>');
+                // chat.innerHTML = fulltext;
+                fulltext += chunk;
+
+                const markdownText = fulltext
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n/g, '<br>');
+
+                chat.innerHTML = markdownText;
+                chat.scrollTop = chat.scrollHeight;
+                }
+            });
+    </script>
+    
+</body>
+</html>
