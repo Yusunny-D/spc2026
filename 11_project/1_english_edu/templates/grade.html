@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ grade }}학년 커리큘럼</h2>
+<ul>
+    {% for idx, curriculum in curriculums %}
+    <li><a href="{{ url_for('curriculum', grade=grade, curriculum_id=idx) }}">{{curriculum}}</a></li>
+    {% endfor %}
+</ul>
+
+<!-- 나중에 다시 돌아와서 채워넣기 (인사말, 여행, 식사) -->
+{% endblock %}
