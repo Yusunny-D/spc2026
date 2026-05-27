@@ -2,6 +2,33 @@
 
 {% block content %}
 <h2>{{ grade }}학년 - {{ curriculum_title }}</h2>
+<div id="ai">
+    <!-- 채팅 창 넣고 대화하도록 만들어야 함 -->
+</div>
+<form id="user-input">
+    <input type="text" name="input" id="input" placeholder="대화를 시작하세요.">
+</form>
+<script>
+    document.getElementById('user-input').addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        const userInput = document.getElementById('input').value;
+        const chatLog = document.getElementById('ai');
+        chatLog.innerHTML += `<div>질문: ${userInput}</div>`
 
-<!-- 채팅 창 넣고 대화하도록 만들어야 함 -->
+        fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                'user_input': userInput
+            })
+        });
+        const data = await response.json();
+        console.log(data);
+        chatLog.innerHTML += `<div>응답: ${data.response}</div>`
+        chatLog.scrollTop  = chatLog.scrollHeight
+    })
+</script>
+
 {% endblock %}

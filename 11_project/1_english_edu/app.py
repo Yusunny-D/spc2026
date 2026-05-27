@@ -6,10 +6,18 @@
 # 5. + 메모리를 통해서 대화 내용 컨텍스트를 기억하게 한다.
 # (+는 추가로 더 하고 싶으면 붙이는 기능... )
 
+from openai import OpenAI
+import os
+from dotenv import load_dotenv
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 
+
+load_dotenv()
 app = Flask(__name__)
+
+my_key = os.getenv('OPENAI_KEY')
+client = OpenAI(api_key=my_key)
 
 # 각 학년별 커리큘럼 데이터
 curriculums = {
@@ -32,12 +40,33 @@ def grade(grade):
         return render_template('grade.html', grade=grade, grades=curriculums.keys(), curriculums=curriculums_index)
     return "해당 학년은 존재하지 않습니다.", 404
 
-@app.route('/grade/<int:grade>/curriculum/<int:curriculum_id>')
+@app.route('/grade/<int:grade>/curriculum/<int:curriculum_id>', methods=['POST', 'GET'])
 def curriculum(grade, curriculum_id):
     if grade in curriculums and 0 <= curriculum_id < len(curriculums[grade]):
         curriculum_title = curriculums[grade][curriculum_id]
+        
+        
+        if request.method =='POST':
+            user_input = request.form.get('input')
+            response = client.chat.completions.create(
+                model='gpt-4o-mini',
+                messages=[
+                    {'role': 'system', 'content': f'{curriculum_title}에 대한 대화를 하는 {grade}학년 영어 선생님이야'},
+                    {'role': 'user', 'content': user_input},
+                ]
+            )
+            final_res = response.choices[0].message.content
+            print(final_res)
+        else:
+            final_res = ''
+        jsonify({'response': final_res})
+
         return render_template('curriculum.html', grade=grade, grades=curriculums.keys(), curriculum_title=curriculum_title)
     return "해당 커리큘럼은 존재하지 않습니다.", 404
+    
+@app.route('/api/chat', methods=['POST'])
+def chat():
+
 
 
 if __name__=='__main__':
