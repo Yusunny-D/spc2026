@@ -1,6 +1,6 @@
 document.getElementById('codeForm').addEventListener('submit', async (ev) => {
     ev.preventDefault();
-    const code = document.getElementById('code').value;
+    const codeUrl = document.getElementById('codeUrl').value;
     const result = document.getElementById('result');
 
     const response = await fetch('/api/codecheck', {
@@ -8,10 +8,10 @@ document.getElementById('codeForm').addEventListener('submit', async (ev) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({code})
+        body: JSON.stringify({codeUrl})
     });
-    const data = await response.json();
-    // console.log(data);
-    result.innerText = data.result;
+    // const data = await response.json();
+    // // console.log(data);
+    // result.innerText = data.result;
 
 });

@@ -8,11 +8,16 @@
 <body>
     <h1>코드 취약점 분석기</h1>
     <form id="codeForm">
-        <textarea name="code" id="code" rows="1" cols="60" placeholder="깃허브 주소를 입력하세요."></textarea><br>
-        <button type="submit">분석시작</button>
+        <textarea name="codeUrl" id="codeUrl" rows="1" cols="60" placeholder="깃허브 주소를 입력하세요."></textarea><br>
+        <h2>분석할 취햑점 유형 선택(복수 선택 가능)</h2>
+        <label><input type="checkbox" id="hardcoding">민감정보(하드코딩된 암호)</label>
+        <label><input type="checkbox" id="sql">SQL Injection</label>
+        <label><input type="checkbox" id="xss">XSS</label>
+        <br>
+        <button type="submit">check</button>
     </form>
     <h2>분석 결과</h2>
     <pre id="result"></pre>
-    <script src="public/js/script.js"></script>
+    <script src="public/script.js"></script>
 </body>
 </html>
