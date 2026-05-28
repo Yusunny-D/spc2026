@@ -2,6 +2,15 @@ document.getElementById('codeForm').addEventListener('submit', async (ev) => {
     ev.preventDefault();
     const codeUrl = document.getElementById('codeUrl').value;
     const result = document.getElementById('result');
+    const options = document.getElementsByName('option');
+
+    // for (option in options) {
+    //     if (option.checked) {
+    //         console.log(option.value)
+    //     }
+    // }
+
+    console.log(options)
 
     const response = await fetch('/api/codecheck', {
         method: 'POST',
@@ -10,8 +19,8 @@ document.getElementById('codeForm').addEventListener('submit', async (ev) => {
         },
         body: JSON.stringify({codeUrl})
     });
-    // const data = await response.json();
-    // // console.log(data);
-    // result.innerText = data.result;
+    const data = await response.json();
+    // console.log(data);
+    result.innerText = data.result;
 
 });
