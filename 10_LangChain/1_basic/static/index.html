@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPC 작명소</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>회사 이름 생성기</h1>
+    <input type="text" id="userInput" placeholder="회사의 상품명을 입력하시오.">
+    <button id="send">이름 생성</button>
+    <h2>결과</h2>
+    <ul id="resultList"></ul>
+    
+    <script>
+        // 1. 전송이 눌리면 
+        // 2. 입력값 가져가다 
+        // 3. 백엔드에 보내기
+        // 4. 결과를 받아와서 
+        // 5. 화면에 출력한다.
+        document.getElementById('send').addEventListener('click', async () => {
+            const product = document.getElementById('userInput').value;
+
+            const response = await fetch('/api/name', 
+                {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({product})
+                }
+            );
+            data = await response.json()
+            reply = data.chatbot
+            console.log(reply)
+            console.log(typeof reply)
+
+            const resultList = document.getElementById('resultList');
+            resultList.innerHTML = '';
+            
+            
+            reply.forEach((name) => {
+                const li = document.createElement('li')
+                li.innerText = name;
+                resultList.appendChild(li);
+                
+            });
+        });
+    </script>
+</body>
+</html>
