@@ -3,6 +3,7 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 import requests
+import re
 
 load_dotenv()
 app = Flask(__name__, static_folder='public')
@@ -16,6 +17,7 @@ def index():
 
 @app.route('/api/codecheck', methods=['POST'])
 def code_check():
+    
     data = request.get_json()
     # print(data)
     # 이걸 넣을건데
@@ -23,41 +25,53 @@ def code_check():
     # 아래처럼 나오게
     # https://raw.githubusercontent.com/lovehyun/tutorial-python/refs/heads/main/11.security/1.sqli/app_weak.py
     # https://raw.githubusercontent.com/lovehyun/tutorial-python/blob/main/11.security/1.sqli/app_weak.py
-    
+    print(data['options'])
     code_url = data['codeUrl']
+    if code_url != '':
+        ori_url1 = 'github.com'
+        new_url1 = 'raw.githubusercontent.com'
 
-    ori_url1 = 'github.com'
-    new_url1 = 'raw.githubusercontent.com'
+        ori_url2 = 'blob'
+        new_url2 = 'refs/heads'
 
-    ori_url2 = 'blob'
-    new_url2 = 'refs/heads'
+        url = code_url.replace(ori_url1, new_url1).replace(ori_url2, new_url2).strip()
+        print(url)
 
+        res = requests.get(url)
+        code = res.text
 
-    url = code_url.replace(ori_url1, new_url1).replace(ori_url2, new_url2).strip()
-    print(url)
+        if data['options'] == []:
+            option = ''
+        else:
+            options = []
+            for o in data['options']:
+                option_dict = {'hardcoding': '민감정보(하드코딩된 암호)', 'sql': 'SQL Injection', 'xss': 'XSS'}
+                options.append(option_dict[o])
+            option = f"{', '.join(options)}을/를 위주로 분석하시오."
 
-    res = requests.get(url)
-    code = res.text
+        prompt = (
+            "다음 소스코드를 보고 취약점을 분석하시오.\n"
+            f"{option}\n"
+            '각 취약점에 대해 해당 코드의 라인 번호, 코드 스니펫, 취약점 설명과 개선 방안을 간단하게 설명하시오. 코드 내의 주석은 무시해도 됩니다. \n\n'
+            '소스코드:\n'
+            '-----------\n'
+            f'{code}\n'
+            '-----------\n'
+        )
+        print(prompt)
 
-
-    prompt = (
-        "다음 소스코드를 보고 취약점을 분석하시오.\n"
-        '각 취약점에 대해 해당 코드의 라인 번호, 코드 스니펫, 취약점 설명과 개선 방안을 간단하게 설명하시오. 코드 내의 주석은 무시해도 됩니다. \n\n'
-        '소스코드:\n'
-        '-----------\n'
-        f'{code}\n'
-        '-----------\n'
-    )
-
-    response = client.chat.completions.create(
-        model='gpt-4o-mini',
-        messages=[
-            {'role': 'system', 'content': '당신은 소스코드 분석 보안 전문가입니다.'},
-            {'role': 'user', 'content': prompt}
-        ]
-    )
-    answer = response.choices[0].message.content
-    return jsonify({'result': answer})
+        response = client.chat.completions.create(
+            model='gpt-4o-mini',
+            messages=[
+                {'role': 'system', 'content': '당신은 소스코드 분석 보안 전문가입니다.'},
+                {'role': 'user', 'content': prompt}
+            ]
+        )
+        answer = response.choices[0].message.content
+        print('취약점 분석 완료')
+        return jsonify({'result': answer})
+    else:
+        return jsonify({'result': "깃허브 주소를 정확히 입력해주세요^^"})
 
 if __name__ == '__main__':
     app.run(debug=True)
