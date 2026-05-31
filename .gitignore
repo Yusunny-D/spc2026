@@ -18,6 +18,7 @@ uploads/
 *.sqlite
 *.sqlite3
 chroma_db/
+other_db/
 
 # Data
 history.json
