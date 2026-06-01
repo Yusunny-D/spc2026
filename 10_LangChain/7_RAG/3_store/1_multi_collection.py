@@ -36,7 +36,7 @@ for name, store in collections.items():
 
 # 2. 컬렉션 내 검색
 def search_in(name, query, k=2):
-    return collections[name].similarity_search(query, k=2)
+    return collections[name].similarity_search(query, k=k)
 
 def search_all(query, k_per=2):
     results = []
