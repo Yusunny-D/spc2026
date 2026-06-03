@@ -40,14 +40,19 @@ print(f"\n{args['recipient']}에게 송금을 진행하시겠습니까?")
 print(" 1. 예(송금)")
 print(" 2. 아니요(취소)")
 print(" 3. 금액 수정")
+choice = input("선택 (1/2/3): ").strip()
 
-if choice == "1":
+if choice == "2":
+    print("\n[취소] 사용자 요청에 의해 취소되었습니다.")
+else:
+    if choice == '3':
+        new_amount = int(input("다시 송금할 금액(원)을 입력하세요: ").strip())
 
-
-edited = {**call, 'args': {**call['args'], 'amount': 5000}}
-fixed = AIMessage(content=ai_msg.content, tool_calls=[edited], id=ai_msg.id)
-agent.update_state(config, {'messages': [fixed]})
-print(f"사람이 수정했음 10000 -> 5000")
+        edited = {**call, 'args': {**call['args'], 'amount': new_amount}}
+        fixed = AIMessage(content=ai_msg.content, tool_calls=[edited], id=ai_msg.id)
+        agent.update_state(config, {'messages': [fixed]})
+        print(f"사람이 수정했음 10000 -> {new_amount}")
 
 result = agent.invoke(None, config=config)
-print(f"[최종] {result['messages'][-1].content}")
+# print(f"[최종] {result['messages'][-1].content}")
+print(f"[최종] {result}")
