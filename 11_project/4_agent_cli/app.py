@@ -21,12 +21,15 @@ SYSTEM = """
 
 agent = create_agent(ChatOpenAI(model='gpt-4o-mini'), TOOLS, system_prompt=SYSTEM)
 
+
 def ask(question):
     # agent를 통해서 해당 질문을 호출한다.
     print('[질문]', question)
     result = agent.invoke({"messages": [('user', question)]})
-    tool_used = ""
-    return "미구현"
+    tool_used = [c['name'] for m in result['messages']
+                if getattr(m, "tool_calls", None) for c in m.tool_calls]
+    print(f"[사용 도구] {tool_used or '(없음)'}")
+    print(f"[답변] {result['messages'][-1].content}")
 
 if __name__ == "__main__":
     print('=== 데모 명령어 ===')
@@ -37,6 +40,6 @@ if __name__ == "__main__":
     print('=== 수동 질의 응답 시작 ===')
     while True:
         # 사용자로부터 질문을 받아서 'q', 'quit', 'exit', 가 올때까지 반복한다.
-
+        ask(question)
         if not question or question.lower() in ("q", "quit", "exit"):
             break

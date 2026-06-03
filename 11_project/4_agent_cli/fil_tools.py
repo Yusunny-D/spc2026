@@ -11,6 +11,7 @@ import requests
 from dotenv import load_dotenv
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
+from langchain_tavily import TavilySearch
 
 load_dotenv()
 
@@ -23,20 +24,22 @@ def get_news(query: str) -> str:
     if not (naver_cid and naver_secret):
         return "네이버 뉴스 못 가져옴!"
     
-    resp = requests.get("뉴스 api",
-                        params={"query": query, "이것도 찾아서 넣기": 5},
+    resp = requests.get("https://openapi.naver.com/v1/search/news.json",
+                        params={"query": query, "display": 5},
                         headers={})
     
     items = resp.json().get('items', [])
     if not items:
         return f"'{query}' 관련 뉴스 없음"
 
-    return "\n".join(["정규 표현식 써서 예쁘게 만들기"])
+    return "\n".join(f"- {re.sub(r'<[^>]+>', '', it['title'])} ({it['link']})" for it in items)
 
 @tool
-def get_company_info():
+def get_company_info(company: str) -> str:
     """ 회사명을 입력받아 구글에 검색해 회사 정보를 반환한다. """
-    return "미구현"
+    web_search = TavilySearch(max_results=3)
+    return web_search.invoke(company)
+
 
 @tool
 def get_exchange_rate(base: str="USD", target: str="KRW") -> str:
