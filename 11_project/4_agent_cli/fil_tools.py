@@ -15,10 +15,10 @@ from langchain_tavily import TavilySearch
 
 load_dotenv()
 
-
 @tool
 def get_news(query: str) -> str:
     """ 네이버 뉴스에서 키워드로 최신기사 제목/링크를 검색한다."""
+    # print(query)
     naver_cid = os.getenv("NAVER_CLIENT_ID")
     naver_secret = os.getenv("NAVER_CLIENT_SECRET")
     if not (naver_cid and naver_secret):
@@ -26,8 +26,9 @@ def get_news(query: str) -> str:
     
     resp = requests.get("https://openapi.naver.com/v1/search/news.json",
                         params={"query": query, "display": 5},
-                        headers={})
-    
+                        headers={"X-Naver-Client-Id": naver_cid,
+                                "X-Naver-Client-Secret": naver_secret})
+    # print(resp)
     items = resp.json().get('items', [])
     if not items:
         return f"'{query}' 관련 뉴스 없음"
@@ -59,9 +60,10 @@ def get_stock_price(ticker):
     # pip install yfinance
     import yfinance as yf
     data = yf.Ticker(ticker).history(period="1d")
+    # print(data)
     if data.empty:
         return f"'{ticker}' 조회에 실패. "
-    return "미구현"
+    return data
 
 
 TOOLS = [get_news, get_company_info, get_exchange_rate, get_stock_price]

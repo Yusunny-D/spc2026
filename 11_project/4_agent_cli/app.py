@@ -32,14 +32,15 @@ def ask(question):
     print(f"[답변] {result['messages'][-1].content}")
 
 if __name__ == "__main__":
-    print('=== 데모 명령어 ===')
-    for question in ["삼성주가 알려줘.", "달러 환율 얼마야?", "엔비디아 관련 최근 뉴스는 뭐가 있어?"]:
-        ask(question)
+    # print('=== 데모 명령어 ===')
+    # for question in ["삼성주가 알려줘.", "달러 환율 얼마야?", "엔비디아 관련 최근 뉴스는 뭐가 있어?"]:
+    #     ask(question)
 
 
     print('=== 수동 질의 응답 시작 ===')
     while True:
         # 사용자로부터 질문을 받아서 'q', 'quit', 'exit', 가 올때까지 반복한다.
-        ask(question)
+        question = input("금융 관련 정보에 대한 질문을 입력하세요: ")
         if not question or question.lower() in ("q", "quit", "exit"):
             break
+        ask(question)
